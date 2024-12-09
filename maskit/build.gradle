@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'net.gentledot'
-version = '1.0-SNAPSHOT'
+group = 'net.gentledot.maskit'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -12,6 +12,7 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.mockito:mockito-core:4.11.0'
 }
 
 test {
