@@ -1,8 +1,11 @@
 package net.gentledot.maskit.rules;
 
+import net.gentledot.maskit.interfaces.MaskingRule;
+import net.gentledot.maskit.models.DataTypes;
+
 public class CreditCardMaskingRule implements MaskingRule {
     @Override
     public String apply(String data) {
-        return data.replaceAll("(\\d{4})\\d{8}(\\d{4})", "$1****$2");
+        return DataTypes.CREDIT_CARD.defaultMasking(data);
     }
 }
