@@ -4,10 +4,21 @@ plugins {
 }
 
 group = 'net.gentledot'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'net.gentledot'
+            artifactId = 'maskit'
+            version = '0.0.1'
+            from components.java
+        }
+    }
+}
 
 repositories {
     mavenCentral()
