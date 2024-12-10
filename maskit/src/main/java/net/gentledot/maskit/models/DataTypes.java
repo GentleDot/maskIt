@@ -21,7 +21,13 @@ public enum DataTypes {
     PHONE_NUMBER(data -> data.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2")),
     NAME(data -> data.replaceAll("(^.)(.*)", "$1*")),
     ADDRESS(data -> data.replaceAll("([가-힣]+\\d?(로|길))", "****")),
-    ALL(data -> "*".repeat(data.length()));
+    ALL(data -> {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < data.length(); i++) {
+            stringBuilder.append("*");
+        }
+        return stringBuilder.toString();
+    });
 
     private final Function<String, String> defaultMasking;
 
@@ -30,7 +36,7 @@ public enum DataTypes {
     }
 
     public String defaultMasking(String data) {
-        if (data == null || data.isBlank()) {
+        if (data == null || isBlank(data)) {
             return data;
         }
         return defaultMasking.apply(data);
@@ -42,5 +48,9 @@ public enum DataTypes {
         sb.append("defaultMasking=").append(defaultMasking);
         sb.append('}');
         return sb.toString();
+    }
+
+    private boolean isBlank(String data) {
+        return data.trim().isEmpty();
     }
 }
