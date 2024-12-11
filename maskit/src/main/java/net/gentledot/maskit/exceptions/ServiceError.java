@@ -2,6 +2,8 @@ package net.gentledot.maskit.exceptions;
 
 public enum ServiceError {
     MASKING_INVALID_REQUEST("1001", "Invalid masking request."),
+    MASKING_INVALID_INDEX("1002", "invalid masking index."),
+    MASKING_INVALID_LENGTH("1003", "invalid masking length."),
     MASKING_TYPE_NOT_FOUND("2001", "No such masking type."),
     BAD_REQUEST("9400", "bad request."),
     INTERNAL_SERVER_ERROR("9500", "Internal Server Error.");

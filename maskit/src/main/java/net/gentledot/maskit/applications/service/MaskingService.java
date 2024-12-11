@@ -12,6 +12,7 @@ import net.gentledot.maskit.exceptions.ServiceError;
 import net.gentledot.maskit.models.DataTypes;
 
 public class MaskingService {
+
     private final CreditCardMaskingModule creditCardMaskingModule = new CreditCardMaskingModule();
     private final SSNMaskingModule ssnMaskingModule = new SSNMaskingModule();
     private final EmailMaskingModule emailMaskingModule = new EmailMaskingModule();
