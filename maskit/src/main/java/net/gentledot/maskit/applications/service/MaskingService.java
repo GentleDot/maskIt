@@ -7,6 +7,7 @@ import net.gentledot.maskit.applications.modules.MaskingModule;
 import net.gentledot.maskit.applications.modules.NameMaskingModule;
 import net.gentledot.maskit.applications.modules.PhoneNumberMaskingModule;
 import net.gentledot.maskit.applications.modules.SSNMaskingModule;
+import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
 import net.gentledot.maskit.models.DataTypes;
@@ -21,21 +22,29 @@ public class MaskingService {
     private final AddressMaskingModule addressMaskingModule = new AddressMaskingModule();
 
     public MaskingModule getMaskingModule(DataTypes ruleKey) {
-        switch (ruleKey) {
-            case CREDIT_CARD:
-                return creditCardMaskingModule;
-            case SSN:
-                return ssnMaskingModule;
-            case EMAIL:
-                return emailMaskingModule;
-            case PHONE_NUMBER:
-                return phoneNumberMaskingModule;
-            case NAME:
-                return nameMaskingModule;
-            case ADDRESS:
-                return addressMaskingModule;
-            default:
+        try {
+            if (ruleKey == null) {
                 throw new MaskingServiceException(ServiceError.MASKING_TYPE_NOT_FOUND);
+            }
+            switch (ruleKey) {
+                case CREDIT_CARD:
+                    return creditCardMaskingModule;
+                case SSN:
+                    return ssnMaskingModule;
+                case EMAIL:
+                    return emailMaskingModule;
+                case PHONE_NUMBER:
+                    return phoneNumberMaskingModule;
+                case NAME:
+                    return nameMaskingModule;
+                case ADDRESS:
+                    return addressMaskingModule;
+                default:
+                    throw new MaskingServiceException(ServiceError.MASKING_TYPE_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handleException(e, "masking service error occurred.");
+            throw new MaskingServiceException(ServiceError.INTERNAL_SERVER_ERROR);
         }
     }
 }

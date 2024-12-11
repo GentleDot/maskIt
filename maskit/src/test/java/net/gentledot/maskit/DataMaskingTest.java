@@ -1,6 +1,7 @@
 package net.gentledot.maskit;
 
 import net.gentledot.maskit.exceptions.MaskingServiceException;
+import net.gentledot.maskit.models.DataTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class DataMaskingTest {
     void testMaskCreditCard() {
         String data = "1234567812345678";
         String expectedMaskedData = "1234****5678";
-        String actualMaskedData = dataMasking.mask(data, "CREDIT_CARD");
+        String actualMaskedData = dataMasking.getModule(DataTypes.CREDIT_CARD).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
 
@@ -24,7 +25,7 @@ class DataMaskingTest {
     void testMaskSSN() {
         String data = "001212-1234567";
         String expectedMaskedData = "001212-*******";
-        String actualMaskedData = dataMasking.mask(data, "SSN");
+        String actualMaskedData = dataMasking.getModule(DataTypes.SSN).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
 
@@ -33,7 +34,7 @@ class DataMaskingTest {
     void testMaskEmail() {
         String data = "example@example.com";
         String expectedMaskedData = "e***@example.com";
-        String actualMaskedData = dataMasking.mask(data, "EMAIL");
+        String actualMaskedData = dataMasking.getModule(DataTypes.EMAIL).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
 
@@ -42,7 +43,7 @@ class DataMaskingTest {
     void testMaskPhoneNumber() {
         String data = "01012345678";
         String expectedMaskedData = "010****5678";
-        String actualMaskedData = dataMasking.mask(data, "PHONE_NUMBER");
+        String actualMaskedData = dataMasking.getModule(DataTypes.PHONE_NUMBER).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
 
@@ -51,7 +52,7 @@ class DataMaskingTest {
     void testMaskName() {
         String data = "홍길동";
         String expectedMaskedData = "홍*";
-        String actualMaskedData = dataMasking.mask(data, "NAME");
+        String actualMaskedData = dataMasking.getModule(DataTypes.NAME).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
 
@@ -60,33 +61,13 @@ class DataMaskingTest {
     void testMaskAddress() {
         String data = "서울특별시 강남구 테헤란로7길 123";
         String expectedMaskedData = "서울특별시 강남구 **** 123";
-        String actualMaskedData = dataMasking.mask(data, "ADDRESS");
+        String actualMaskedData = dataMasking.getModule(DataTypes.ADDRESS).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
-
-    @DisplayName("전체 마스킹 동작 테스트")
-    @Test
-    void testMaskAll() {
-        String data = "This is a test.";
-        String expectedMaskedData = "***************";
-        String actualMaskedData = dataMasking.mask(data, "ALL");
-        assertEquals(expectedMaskedData, actualMaskedData);
-    }
-
 
     @DisplayName("정의되지 않은 마스킹 형식은 예외를 발생.")
     @Test
     void failTest_MaskWhenInvalidRuleKeyThenThrowException() {
-        String data = "1234567812345678";
-        String invalidRuleKey = "INVALID_RULE";
-        assertThrows(MaskingServiceException.class, () -> dataMasking.mask(data, invalidRuleKey));
-    }
-
-    @DisplayName("마스킹 형식 미지정시 예외를 발생")
-    @Test
-    void testMaskWhenNullRuleKeyThenThrowException() {
-        String data = "1234567812345678";
-        String nullRuleKey = null;
-        assertThrows(MaskingServiceException.class, () -> dataMasking.mask(data, nullRuleKey));
+        assertThrows(MaskingServiceException.class, () -> dataMasking.getModule(null));
     }
 }
