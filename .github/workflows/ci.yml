@@ -28,6 +28,9 @@ jobs:
                     java-version: '8'
                     distribution: 'temurin'
 
+            -   name: Permission denied solve
+                run: chmod +x ./maskit/gradlew
+
             -   name: Build with Gradle
                 run: cd maskit && ./gradlew build
 
@@ -48,6 +51,9 @@ jobs:
                 with:
                     java-version: '8'
                     distribution: 'temurin'
+
+            -   name: Permission denied solve
+                run: chmod +x ./maskit/gradlew
 
             -   name: Build with Gradle
                 run: cd maskit && ./gradlew build
