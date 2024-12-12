@@ -55,16 +55,5 @@ jobs:
             -   name: Permission denied solve
                 run: chmod +x ./maskit/gradlew
 
-            -   name: Build with Gradle
-                run: cd maskit && ./gradlew build
-
-            -   name: Run tests
-                run: cd maskit && ./gradlew test
-
-            -   name: Trigger JitPack build
-                run: |
-                    curl -X POST https://jitpack.io/api/builds \
-                    -d "repo=${{ github.repository }}" \
-                    -d "branch=main"
-                env:
-                    JITPACK_TOKEN: ${{ secrets.JITPACK_TOKEN }}
+            -   name: Publish to local Maven repository
+                run: cd maskit && ./gradlew publishToMavenLocal
