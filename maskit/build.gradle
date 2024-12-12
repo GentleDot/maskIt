@@ -9,6 +9,12 @@ version = '0.0.2-alpha'
 sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
 
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -18,11 +24,6 @@ publishing {
             from components.java
         }
     }
-}
-
-repositories {
-    mavenCentral()
-    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -36,4 +37,8 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    outputs.upToDateWhen { false }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
