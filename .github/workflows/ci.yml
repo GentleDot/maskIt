@@ -29,10 +29,10 @@ jobs:
                     distribution: 'temurin'
 
             -   name: Build with Gradle
-                run: ./gradlew build
+                run: gradle build
 
             -   name: Run tests
-                run: ./gradlew test
+                run: gradle test
 
     publish:
         runs-on: ubuntu-latest
@@ -50,10 +50,10 @@ jobs:
                     distribution: 'temurin'
 
             -   name: Build with Gradle
-                run: ./gradlew build
+                run: gradle build
 
             -   name: Run tests
-                run: ./gradlew test
+                run: gradle test
 
             -   name: Trigger JitPack build
                 run: |
