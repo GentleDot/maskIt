@@ -29,10 +29,10 @@ jobs:
                     distribution: 'temurin'
 
             -   name: Build with Gradle
-                run: gradle build
+                run: cd maskit && ./gradlew build
 
             -   name: Run tests
-                run: gradle test
+                run: cd maskit && ./gradlew test
 
     publish:
         runs-on: ubuntu-latest
@@ -50,10 +50,10 @@ jobs:
                     distribution: 'temurin'
 
             -   name: Build with Gradle
-                run: gradle build
+                run: cd maskit && ./gradlew build
 
             -   name: Run tests
-                run: gradle test
+                run: cd maskit && ./gradlew test
 
             -   name: Trigger JitPack build
                 run: |
