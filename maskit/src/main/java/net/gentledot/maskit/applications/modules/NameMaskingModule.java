@@ -26,7 +26,7 @@ public class NameMaskingModule extends MaskitMaskingModule implements MaskingMod
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
         if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
-            throw new IllegalArgumentException("Invalid indices for masking");
+            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
         }
         StringBuilder masked = new StringBuilder(data);
         for (int i = fromIndex; i < toIndex; i++) {
