@@ -1,6 +1,5 @@
 package net.gentledot.maskit.applications.modules;
 
-import net.gentledot.maskit.applications.utils.MaskingUtil;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
@@ -35,7 +34,14 @@ public class SSNMaskingModule extends MaskitMaskingModule implements MaskingModu
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
-        return MaskingUtil.mask(data, fromIndex, toIndex);
+        if (data == null || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
+            throw new IllegalArgumentException("Invalid indices for masking");
+        }
+        StringBuilder masked = new StringBuilder(data);
+        for (int i = fromIndex; i < toIndex; i++) {
+            masked.setCharAt(i, '*');
+        }
+        return masked.toString();
     }
 
     public String maskFront(String data, int length) {
