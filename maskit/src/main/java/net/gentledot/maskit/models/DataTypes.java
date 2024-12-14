@@ -6,6 +6,5 @@ public enum DataTypes {
     EMAIL,
     PHONE_NUMBER,
     NAME,
-    ADDRESS,
-    CUSTOM;
+    ADDRESS
 }

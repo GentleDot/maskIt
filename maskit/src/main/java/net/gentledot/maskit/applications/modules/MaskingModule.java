@@ -6,7 +6,7 @@ public interface MaskingModule {
     // 전체 데이터를 기본 룰로 마스킹
     String mask(String data);
 
-    // 특정 인덱스 범위 내에서 데이터를 마스킹
+    // 특정 인덱스 범위 내에서 마스킹 결과를 잘라서 반환
     String mask(String data, int fromIndex, int toIndex);
 
     // 데이터의 앞부분을 마스킹
