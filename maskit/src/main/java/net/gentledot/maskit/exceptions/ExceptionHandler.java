@@ -10,7 +10,7 @@ public class ExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
-    public static void handleException(Throwable e, String message) {
+    public static void handleException(Throwable e, String message) throws RuntimeException {
         if (e instanceof MaskingServiceException) {
             handleCustomException((MaskingServiceException) e, message);
         } else {
