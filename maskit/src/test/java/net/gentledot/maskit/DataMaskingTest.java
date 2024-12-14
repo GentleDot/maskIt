@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataMaskingTest {
-    private final DataMasking dataMasking = new DataMasking();
+    private final DataMasking dataMasking = DataMasking.builder().build(); // 기본 마스킹 서비스로 구성된 DataMasking
 
     @DisplayName("카드번호의 기본 마스킹 동작 체크")
     @Test
