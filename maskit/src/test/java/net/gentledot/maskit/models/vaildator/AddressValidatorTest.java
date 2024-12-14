@@ -51,6 +51,7 @@ class AddressValidatorTest {
         Assertions.assertTrue(addressValidator.isValidAddress(address), "유효한 주소: " + address);
     }
 
+    // 참고한 자료 : https://medium.com/daangn/%EC%A3%BC%EC%86%8C-%EC%9D%B8%EC%8B%9D%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%82%BD%EC%A7%88%EC%9D%98-%EA%B8%B0%EB%A1%9D-df2d8f82d25
     @ParameterizedTest
     @CsvSource({
             "오픈기념으로 1",
