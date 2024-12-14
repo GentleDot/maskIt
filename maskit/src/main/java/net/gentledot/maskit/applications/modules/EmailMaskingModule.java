@@ -25,7 +25,7 @@ public class EmailMaskingModule extends MaskitMaskingModule implements MaskingMo
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
-        if (data == null || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
+        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
             throw new IllegalArgumentException("Invalid indices for masking");
         }
         StringBuilder masked = new StringBuilder(data);
