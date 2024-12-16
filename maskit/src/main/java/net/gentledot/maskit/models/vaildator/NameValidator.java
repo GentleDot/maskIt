@@ -10,6 +10,11 @@ public class NameValidator {
         if (name == null) {
             return false;
         }
+
+        if (name.length() < 2 || name.length() > 6) {
+            return false; // 2 ~ 6 자
+        }
+
         return NAME_PATTERN.matcher(name).matches();
     }
 }
