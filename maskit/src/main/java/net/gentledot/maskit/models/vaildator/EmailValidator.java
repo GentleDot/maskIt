@@ -3,7 +3,7 @@ package net.gentledot.maskit.models.vaildator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidator {
+public class EmailValidator implements DataValidator {
     private static final String NO_LEADING_DOT = "(?!\\.)";     // No leading dot
     private static final String NO_TRAILING_DOT = "(?!.*\\.@)"; // No dot at the end of local part
     private static final String NO_CONSECUTIVE_DOTS = "(?!.*\\.\\.)"; // No consecutive dots
@@ -29,7 +29,7 @@ public class EmailValidator {
             .toString();
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    public boolean isValidEmail(String email) {
+    public boolean isValid(String email) {
         if (email == null) {
             return false;
         }

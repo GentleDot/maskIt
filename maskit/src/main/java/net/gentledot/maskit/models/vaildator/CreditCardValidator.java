@@ -2,7 +2,7 @@ package net.gentledot.maskit.models.vaildator;
 
 import java.util.regex.Pattern;
 
-public class CreditCardValidator {
+public class CreditCardValidator implements DataValidator {
     private static final String VISA_REGEX = "4\\d{12}(?:\\d{3})?";
     private static final String MASTERCARD_REGEX = "5[1-5]\\d{14}";
     private static final String AMEX_REGEX = "3[47]\\d{13}";
@@ -29,7 +29,7 @@ public class CreditCardValidator {
         return stringBuilder.toString();
     }
 
-    public boolean isValidCreditCard(String creditCard) {
+    public boolean isValid(String creditCard) {
         if (creditCard == null) {
             return false;
         }

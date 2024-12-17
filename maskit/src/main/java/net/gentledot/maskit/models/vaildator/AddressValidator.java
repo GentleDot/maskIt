@@ -2,7 +2,7 @@ package net.gentledot.maskit.models.vaildator;
 
 import java.util.regex.Pattern;
 
-class AddressValidator {
+class AddressValidator implements DataValidator {
     private static final String SPECIAL_CITY = "\\S+특별시";
     private static final String METROPOLITAN_CITY = "\\S+광역시";
     private static final String PROVINCE = "\\S+도";
@@ -128,7 +128,7 @@ class AddressValidator {
         return String.format("(%s\\s%s|%s\\s%s|%s|%s|%s|%s|%s|%s)", CITY, DISTRICT, CITY, COUNTY, CITY, COUNTY, DISTRICT, SPECIAL_SELF_GOVERNING_CITY, SPECIAL_SELF_GOVERNING_PROVINCE, SPECIAL_SELF_GOVERNING_CITY);
     }
 
-    public boolean isValidAddress(String address) {
+    public boolean isValid(String address) {
         if (address == null) {
             return false;
         }

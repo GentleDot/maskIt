@@ -2,7 +2,7 @@ package net.gentledot.maskit.models.vaildator;
 
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator {
+public class PhoneNumberValidator implements DataValidator {
     private static final String COUNTRY_CODE_REGEX = "(\\+82|0)";
     private static final String AREA_CODE_REGEX = "(10|2|[3-9][0-9]|19)";
     private static final String PREFIX_REGEX = "([0-9]{3,4})";
@@ -12,8 +12,8 @@ public class PhoneNumberValidator {
     private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile(PHONE_NUMBER_REGEX);
 
     private static String buildPhoneNumberRegex() {
-        StringBuilder regexBuilder = new StringBuilder();
-        regexBuilder.append("^")
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("^")
                 .append(COUNTRY_CODE_REGEX)
                 .append("[-]?")
                 .append(AREA_CODE_REGEX)
@@ -22,10 +22,10 @@ public class PhoneNumberValidator {
                 .append("[-]?")
                 .append(LINE_NUMBER_REGEX)
                 .append("$");
-        return regexBuilder.toString();
+        return stringBuilder.toString();
     }
 
-    public boolean isValidPhoneNumber(String phoneNumber) {
+    public boolean isValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;
         }

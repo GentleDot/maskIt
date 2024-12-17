@@ -2,7 +2,7 @@ package net.gentledot.maskit.models.vaildator;
 
 import java.util.regex.Pattern;
 
-public class SSNValidator {
+public class SSNValidator implements DataValidator {
     private static final String YEAR_REGEX = "[0-9]{2}";
     private static final String MONTH_REGEX = "(?:0[1-9]|1[0-2])";
     private static final String DAY_REGEX = "(?:0[1-9]|[12][0-9]|3[01])";
@@ -23,7 +23,7 @@ public class SSNValidator {
         return stringBuilder.toString();
     }
 
-    public boolean isValidSSN(String ssn) {
+    public boolean isValid(String ssn) {
         if (ssn == null) {
             return false;
         }
