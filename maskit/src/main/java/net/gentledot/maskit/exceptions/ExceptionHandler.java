@@ -8,13 +8,16 @@ public class ExceptionHandler {
     private ExceptionHandler() {
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
+    private static final String EXCEPTION_HANDLER = "maskit.exceptions.ExceptionHandler";
+    private static final Logger logger = LoggerFactory.getLogger(EXCEPTION_HANDLER);
 
-    public static void handleException(Throwable e, String message) throws RuntimeException {
+    public static void handleException(Exception e, String message) throws MaskingServiceException {
         if (e instanceof MaskingServiceException) {
             handleCustomException((MaskingServiceException) e, message);
+            throw (MaskingServiceException) e;
         } else {
             handleGeneralException(e);
+            throw new MaskingServiceException(ServiceError.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -22,7 +25,7 @@ public class ExceptionHandler {
         logger.error("MaskingServiceException occurred [{}] : {}", ex.getServiceError().getCode(), message);
     }
 
-    private static void handleGeneralException(Throwable ex) {
+    private static void handleGeneralException(Exception ex) {
         logger.error("An unexpected error occurred: {}", ex.getMessage());
     }
 }
