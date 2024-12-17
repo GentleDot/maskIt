@@ -1,5 +1,9 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.ExceptionHandler;
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import net.gentledot.maskit.exceptions.ServiceError;
+
 import java.util.regex.Pattern;
 
 public class PhoneNumberValidator implements DataValidator {
@@ -27,7 +31,7 @@ public class PhoneNumberValidator implements DataValidator {
 
     public boolean isValid(String phoneNumber) {
         if (phoneNumber == null) {
-            return false;
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null phone number is not allowed.");
         }
         return PHONE_NUMBER_PATTERN.matcher(phoneNumber).matches();
     }

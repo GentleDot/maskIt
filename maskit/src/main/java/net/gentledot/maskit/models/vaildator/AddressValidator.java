@@ -1,8 +1,12 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.ExceptionHandler;
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import net.gentledot.maskit.exceptions.ServiceError;
+
 import java.util.regex.Pattern;
 
-class AddressValidator implements DataValidator {
+public class AddressValidator implements DataValidator {
     private static final String SPECIAL_CITY = "\\S+특별시";
     private static final String METROPOLITAN_CITY = "\\S+광역시";
     private static final String PROVINCE = "\\S+도";
@@ -130,7 +134,7 @@ class AddressValidator implements DataValidator {
 
     public boolean isValid(String address) {
         if (address == null) {
-            return false;
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null address is not allowed.");
         }
         return ROAD_ADDRESS_PATTERN.matcher(address).matches() ||
                NEIGHBORHOOD_ADDRESS_PATTERN.matcher(address).matches() ||

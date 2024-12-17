@@ -1,5 +1,9 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.ExceptionHandler;
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import net.gentledot.maskit.exceptions.ServiceError;
+
 import java.util.regex.Pattern;
 
 public class SSNValidator implements DataValidator {
@@ -25,7 +29,7 @@ public class SSNValidator implements DataValidator {
 
     public boolean isValid(String ssn) {
         if (ssn == null) {
-            return false;
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null ssn number is not allowed.");
         }
         return SSN_PATTERN.matcher(ssn).matches();
     }

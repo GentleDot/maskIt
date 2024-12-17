@@ -1,5 +1,7 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -9,87 +11,85 @@ class SSNValidatorTest {
     private final SSNValidator ssnValidator = new SSNValidator();
 
     @Test
-    void testIsValidSSNWhenInputIsValidThenReturnTrue() {
+    void testisValidWhenInputIsValidThenReturnTrue() {
         String ssn = "900101-1234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertTrue(result);
     }
 
     @Test
-    void testIsValidSSNWhenInputIsValidWithDifferentCenturyThenReturnTrue() {
+    void testisValidWhenInputIsValidWithDifferentCenturyThenReturnTrue() {
         String ssn = "000101-4234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertTrue(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputIsTooShortThenReturnFalse() {
+    void falseTest_isValidWhenInputIsTooShortThenReturnFalse() {
         String ssn = "900101-123456";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputIsTooLongThenReturnFalse() {
+    void falseTest_isValidWhenInputIsTooLongThenReturnFalse() {
         String ssn = "900101-12345678";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsLettersThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsLettersThenReturnFalse() {
         String ssn = "900101-1234abc";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsSpecialCharactersThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsSpecialCharactersThenReturnFalse() {
         String ssn = "900101-1234@67";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsSpacesThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsSpacesThenReturnFalse() {
         String ssn = "900101 1234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsInvalidMonthThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsInvalidMonthThenReturnFalse() {
         String ssn = "901301-1234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsInvalidDayThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsInvalidDayThenReturnFalse() {
         String ssn = "900132-1234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void falseTest_IsValidSSNWhenInputContainsInvalidSerialThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsInvalidSerialThenReturnFalse() {
         String ssn = "900101-5234567";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
     }
 
     @Test
-    void testIsValidSSNWhenInputIsNullThenReturnFalse() {
-        String ssn = null;
-        boolean result = ssnValidator.isValidSSN(ssn);
-        assertFalse(result);
-    }
-
-    @Test
-    void testIsValidSSNWhenInputIsEmptyThenReturnFalse() {
+    void testisValidWhenInputIsEmptyThenReturnFalse() {
         String ssn = "";
-        boolean result = ssnValidator.isValidSSN(ssn);
+        boolean result = ssnValidator.isValid(ssn);
         assertFalse(result);
+    }
+
+    @Test
+    void testFail_WhenInputNull() {
+        Assertions.assertThrows(MaskingServiceException.class, () -> ssnValidator.isValid(null));
     }
 
 }

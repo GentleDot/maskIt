@@ -1,5 +1,9 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.ExceptionHandler;
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import net.gentledot.maskit.exceptions.ServiceError;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +35,7 @@ public class EmailValidator implements DataValidator {
 
     public boolean isValid(String email) {
         if (email == null) {
-            return false;
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null credit card number is not allowed.");
         }
 
         if (email.endsWith(".")) { // check this first - it's cheap!

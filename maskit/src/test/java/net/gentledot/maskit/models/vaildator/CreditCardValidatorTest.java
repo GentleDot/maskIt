@@ -1,5 +1,7 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.MaskingServiceException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -32,7 +34,7 @@ class CreditCardValidatorTest {
             "3530111333300001, false"
     })
     void testIsCreditCardType(String cardNumber, boolean expected) {
-        assertEquals(expected, creditCardValidator.isValidCreditCard(cardNumber));
+        assertEquals(expected, creditCardValidator.isValid(cardNumber));
     }
 
     @ParameterizedTest
@@ -42,20 +44,18 @@ class CreditCardValidatorTest {
             "4111-1111-1111-1112, false",
             "4111 1111 1111 1112, false"
     })
-    void testIsValidCreditCardWithFormatting(String cardNumber, boolean expected) {
-        assertEquals(expected, creditCardValidator.isValidCreditCard(cardNumber));
+    void testisValidWithFormatting(String cardNumber, boolean expected) {
+        assertEquals(expected, creditCardValidator.isValid(cardNumber));
     }
 
     @Test
-    void testIsValidCreditCardWhenNullThenFalse() {
-        String nullCreditCard = null;
-        assertFalse(creditCardValidator.isValidCreditCard(nullCreditCard), "Expected null credit card number to return false");
-    }
-
-    @Test
-    void testIsValidCreditCardWhenEmptyThenFalse() {
+    void testisValidWhenEmptyThenFalse() {
         String emptyCreditCard = "";
-        assertFalse(creditCardValidator.isValidCreditCard(emptyCreditCard), "Expected empty credit card number to return false");
+        assertFalse(creditCardValidator.isValid(emptyCreditCard), "Expected empty credit card number to return false");
     }
 
+    @Test
+    void testFail_WhenInputNull() {
+        Assertions.assertThrows(MaskingServiceException.class, () -> creditCardValidator.isValid(null));
+    }
 }

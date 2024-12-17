@@ -1,5 +1,6 @@
 package net.gentledot.maskit.models.vaildator;
 
+import net.gentledot.maskit.exceptions.MaskingServiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -48,7 +49,7 @@ class AddressValidatorTest {
             "서울특별시 강남구 테헤란로 123-45, 삼성빌딩 101호"
     })
     void testValidAddresses(String address) {
-        Assertions.assertTrue(addressValidator.isValidAddress(address), "유효한 주소: " + address);
+        Assertions.assertTrue(addressValidator.isValid(address), "유효한 주소: " + address);
     }
 
     // 참고한 자료 : https://medium.com/daangn/%EC%A3%BC%EC%86%8C-%EC%9D%B8%EC%8B%9D%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%82%BD%EC%A7%88%EC%9D%98-%EA%B8%B0%EB%A1%9D-df2d8f82d25
@@ -64,13 +65,11 @@ class AddressValidatorTest {
             "12345"
     })
     void testInvalidAddresses(String address) {
-        Assertions.assertFalse(addressValidator.isValidAddress(address), "유효하지 않은 주소: " + address);
+        Assertions.assertFalse(addressValidator.isValid(address), "유효하지 않은 주소: " + address);
     }
 
     @Test
-    void testNullAddress() {
-        Assertions.assertFalse(addressValidator.isValidAddress(null));
+    void testFail_WhenInputNull() {
+        Assertions.assertThrows(MaskingServiceException.class, () -> addressValidator.isValid(null));
     }
-
-
 }
