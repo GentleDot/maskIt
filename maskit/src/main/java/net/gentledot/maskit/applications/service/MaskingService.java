@@ -20,15 +20,6 @@ public class MaskingService {
     private final NameMaskingModule nameMaskingModule;
     private final AddressMaskingModule addressMaskingModule;
 
-    public MaskingService() {
-        this.creditCardMaskingModule = new CreditCardMaskingModule();
-        this.ssnMaskingModule = new SSNMaskingModule();
-        this.emailMaskingModule = new EmailMaskingModule();
-        this.phoneNumberMaskingModule = new PhoneNumberMaskingModule();
-        this.nameMaskingModule = new NameMaskingModule();
-        this.addressMaskingModule = new AddressMaskingModule();
-    }
-
     public MaskingService(CreditCardMaskingModule creditCardMaskingModule, SSNMaskingModule ssnMaskingModule, EmailMaskingModule emailMaskingModule, PhoneNumberMaskingModule phoneNumberMaskingModule, NameMaskingModule nameMaskingModule, AddressMaskingModule addressMaskingModule) {
         this.creditCardMaskingModule = creditCardMaskingModule;
         this.ssnMaskingModule = ssnMaskingModule;

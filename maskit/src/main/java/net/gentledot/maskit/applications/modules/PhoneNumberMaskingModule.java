@@ -3,19 +3,31 @@ package net.gentledot.maskit.applications.modules;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
-import net.gentledot.maskit.models.DataTypes;
+import net.gentledot.maskit.models.vaildator.DataValidator;
+import net.gentledot.maskit.models.vaildator.PhoneNumberValidator;
 
 import java.util.regex.Pattern;
 
 public class PhoneNumberMaskingModule extends MaskitMaskingModule implements MaskingModule {
-    private static final DataTypes DATA_TYPE = DataTypes.PHONE_NUMBER;
+    private final DataValidator validator;
+
+    private PhoneNumberMaskingModule(DataValidator validator) {
+        this.validator = validator;
+    }
+
+    public static PhoneNumberMaskingModule newInstance() {
+        return new PhoneNumberMaskingModule(new PhoneNumberValidator());
+    }
+
+    public static PhoneNumberMaskingModule newInstance(DataValidator validator) {
+        return new PhoneNumberMaskingModule(validator);
+    }
+
 
     @Override
     public String mask(String data) {
+        validator.isValid(data);
         try {
-            if (data == null) {
-                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-            }
             return data.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
@@ -35,14 +47,17 @@ public class PhoneNumberMaskingModule extends MaskitMaskingModule implements Mas
         return masked.toString();
     }
 
+    @Override
     public String maskFront(String data, int length) {
         return super.maskFront(data, length);
     }
 
+    @Override
     public String maskBack(String data, int length) {
         return super.maskBack(data, length);
     }
 
+    @Override
     public String maskWithRegex(String data, Pattern regex) {
         return super.maskWithRegex(data, regex);
     }

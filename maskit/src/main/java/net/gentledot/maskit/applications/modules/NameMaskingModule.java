@@ -3,19 +3,30 @@ package net.gentledot.maskit.applications.modules;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
-import net.gentledot.maskit.models.DataTypes;
+import net.gentledot.maskit.models.vaildator.DataValidator;
+import net.gentledot.maskit.models.vaildator.NameValidator;
 
 import java.util.regex.Pattern;
 
 public class NameMaskingModule extends MaskitMaskingModule implements MaskingModule {
-    private static final DataTypes DATA_TYPE = DataTypes.NAME;
+    private final DataValidator validator;
+
+    private NameMaskingModule(DataValidator validator) {
+        this.validator = validator;
+    }
+
+    public static NameMaskingModule newInstance() {
+        return new NameMaskingModule(new NameValidator());
+    }
+
+    public static NameMaskingModule newInstance(DataValidator validator) {
+        return new NameMaskingModule(validator);
+    }
 
     @Override
     public String mask(String data) {
+        validator.isValid(data);
         try {
-            if (data == null) {
-                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-            }
             return data.replaceAll("(^.)(.*)", "$1*");
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
@@ -35,14 +46,17 @@ public class NameMaskingModule extends MaskitMaskingModule implements MaskingMod
         return masked.toString();
     }
 
+    @Override
     public String maskFront(String data, int length) {
         return super.maskFront(data, length);
     }
 
+    @Override
     public String maskBack(String data, int length) {
         return super.maskBack(data, length);
     }
 
+    @Override
     public String maskWithRegex(String data, Pattern regex) {
         return super.maskWithRegex(data, regex);
     }

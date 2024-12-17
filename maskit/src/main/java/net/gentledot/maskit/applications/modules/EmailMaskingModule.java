@@ -3,19 +3,30 @@ package net.gentledot.maskit.applications.modules;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
-import net.gentledot.maskit.models.DataTypes;
+import net.gentledot.maskit.models.vaildator.DataValidator;
+import net.gentledot.maskit.models.vaildator.EmailValidator;
 
 import java.util.regex.Pattern;
 
 public class EmailMaskingModule extends MaskitMaskingModule implements MaskingModule {
-    private static final DataTypes DATA_TYPE = DataTypes.EMAIL;
+    private final DataValidator validator;
+
+    private EmailMaskingModule(DataValidator validator) {
+        this.validator = validator;
+    }
+
+    public static EmailMaskingModule newInstance() {
+        return new EmailMaskingModule(new EmailValidator());
+    }
+
+    public static EmailMaskingModule newInstance(DataValidator validator) {
+        return new EmailMaskingModule(validator);
+    }
 
     @Override
     public String mask(String data) {
+        validator.isValid(data);
         try {
-            if (data == null) {
-                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-            }
             return data.replaceAll("(^[^@])([^@]*)(@.*$)", "$1***$3");
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
@@ -35,14 +46,17 @@ public class EmailMaskingModule extends MaskitMaskingModule implements MaskingMo
         return masked.toString();
     }
 
+    @Override
     public String maskFront(String data, int length) {
         return maskFront(data, length);
     }
 
+    @Override
     public String maskBack(String data, int length) {
         return maskBack(data, length);
     }
 
+    @Override
     public String maskWithRegex(String data, Pattern regex) {
         return maskWithRegex(data, regex);
     }

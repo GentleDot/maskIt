@@ -3,19 +3,30 @@ package net.gentledot.maskit.applications.modules;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
-import net.gentledot.maskit.models.DataTypes;
+import net.gentledot.maskit.models.vaildator.CreditCardValidator;
+import net.gentledot.maskit.models.vaildator.DataValidator;
 
 import java.util.regex.Pattern;
 
 public class CreditCardMaskingModule extends MaskitMaskingModule implements MaskingModule {
-    private static final DataTypes DATA_TYPE = DataTypes.CREDIT_CARD;
+    private final DataValidator validator;
+
+    private CreditCardMaskingModule(DataValidator validator) {
+        this.validator = validator;
+    }
+
+    public static CreditCardMaskingModule newInstance() {
+        return new CreditCardMaskingModule(new CreditCardValidator());
+    }
+
+    public static CreditCardMaskingModule newInstance(DataValidator validator) {
+        return new CreditCardMaskingModule(validator);
+    }
 
     @Override
     public String mask(String data) {
+        validator.isValid(data);
         try {
-            if (data == null) {
-                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-            }
             return data.replaceAll("(\\d{4})\\d{8}(\\d{4})", "$1****$2");
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
@@ -35,14 +46,17 @@ public class CreditCardMaskingModule extends MaskitMaskingModule implements Mask
         return masked.toString();
     }
 
+    @Override
     public String maskFront(String data, int length) {
         return super.maskFront(data, length);
     }
 
+    @Override
     public String maskBack(String data, int length) {
         return super.maskBack(data, length);
     }
 
+    @Override
     public String maskWithRegex(String data, Pattern regex) {
         return super.maskWithRegex(data, regex);
     }

@@ -13,10 +13,6 @@ import net.gentledot.maskit.models.DataTypes;
 public class DataMasking {
     private final MaskingService maskingService;
 
-    public DataMasking() {
-        this.maskingService = new MaskingService();
-    }
-
     private DataMasking(MaskingService maskingService) {
         this.maskingService = maskingService;
     }
@@ -38,12 +34,12 @@ public class DataMasking {
         private AddressMaskingModule addressMaskingModule;
 
         public DataMaskingBuilder() {
-            this.creditCardMaskingModule = new CreditCardMaskingModule();
-            this.ssnMaskingModule = new SSNMaskingModule();
-            this.emailMaskingModule = new EmailMaskingModule();
-            this.phoneNumberMaskingModule = new PhoneNumberMaskingModule();
-            this.nameMaskingModule = new NameMaskingModule();
-            this.addressMaskingModule = new AddressMaskingModule();
+            this.creditCardMaskingModule = CreditCardMaskingModule.newInstance();
+            this.ssnMaskingModule = SSNMaskingModule.newInstance();
+            this.emailMaskingModule = EmailMaskingModule.newInstance();
+            this.phoneNumberMaskingModule = PhoneNumberMaskingModule.newInstance();
+            this.nameMaskingModule = NameMaskingModule.newInstance();
+            this.addressMaskingModule = AddressMaskingModule.newInstance();
         }
 
         public DataMaskingBuilder phoneNumberMaskingModule(PhoneNumberMaskingModule phoneNumberMaskingModule) {

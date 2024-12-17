@@ -60,9 +60,10 @@ class DataMaskingTest {
     @Test
     void testMaskAddress() {
         String data = "서울특별시 강남구 테헤란로7길 123";
-        String expectedMaskedData = "서울특별시 강남구 **** 123";
+        String expectedMaskedData = "서울특별시 강남구 ****** 123";
         String actualMaskedData = dataMasking.getModule(DataTypes.ADDRESS).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
+        assertEquals(data.length(), actualMaskedData.length());
     }
 
     @DisplayName("정의되지 않은 마스킹 형식은 예외를 발생.")
@@ -120,8 +121,9 @@ class DataMaskingTest {
     @Test
     void testAddressModuleMaskedAddress() {
         String data = "서울특별시 강남구 테헤란로7길 123";
-        String expectedMaskedData = "서울특별시 강남구 **** 123";
+        String expectedMaskedData = "서울특별시 강남구 ****** 123";
         String actualMaskedData = dataMasking.getModule(DataTypes.ADDRESS).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
+        assertEquals(data.length(), actualMaskedData.length());
     }
 }
