@@ -3,12 +3,9 @@ package net.gentledot.maskit.models.vaildator;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
-
-import java.util.regex.Pattern;
+import net.gentledot.maskit.models.util.NameRegexUtil;
 
 public class NameValidator implements DataValidator {
-    private static final String NAME_REGEX = "^[가-힣]{2,6}$";
-    private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
 
     public boolean isValid(String name) {
         if (name == null) {
@@ -19,6 +16,6 @@ public class NameValidator implements DataValidator {
             return false; // 2 ~ 6 자
         }
 
-        return NAME_PATTERN.matcher(name).matches();
+        return NameRegexUtil.NAME_PATTERN.matcher(name).matches();
     }
 }
