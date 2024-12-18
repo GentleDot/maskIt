@@ -3,6 +3,7 @@ package net.gentledot.maskit.applications.modules;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
+import net.gentledot.maskit.models.util.AddressRegexUtil;
 import net.gentledot.maskit.models.vaildator.AddressValidator;
 import net.gentledot.maskit.models.vaildator.DataValidator;
 
@@ -36,14 +37,20 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
     }
 
     private String maskAddress(String data) {
-        Pattern pattern = Pattern.compile("([가-힣]+\\d?([로길]))");
+        Pattern pattern = AddressRegexUtil.CITY_REGION_PATTERN;
         Matcher matcher = pattern.matcher(data);
-        StringBuffer result = new StringBuffer();
-        while (matcher.find()) {
-            String maskedGroup = maskGroup(matcher.group(1));
-            matcher.appendReplacement(result, maskedGroup);
+        StringBuilder result = new StringBuilder();
+
+        if (matcher.find()) {
+            String substring = data.substring(matcher.start(), matcher.end());
+            result.append(substring);
+
+            if (substring.length() <= data.length()) {
+                String tails = data.substring(matcher.end());
+                result.append(maskGroup(tails));
+            }
         }
-        matcher.appendTail(result);
+
         return result.toString();
     }
 
@@ -54,6 +61,7 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
         }
         return masked.toString();
     }
+
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {

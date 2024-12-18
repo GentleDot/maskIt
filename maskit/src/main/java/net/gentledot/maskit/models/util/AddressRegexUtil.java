@@ -6,7 +6,7 @@ public class AddressRegexUtil {
     private AddressRegexUtil() {
     }
 
-    public static final String SPECIAL_CITY = "\\S+특별시";
+    public static final String SPECIAL_CITY = "\\S+(특별)?시";
     public static final String METROPOLITAN_CITY = "\\S+광역시";
     public static final String PROVINCE = "\\S+도";
     public static final String SPECIAL_SELF_GOVERNING_CITY = "\\S+특별자치시";
@@ -26,8 +26,11 @@ public class AddressRegexUtil {
     // simple ver
     public static final String SIMPLE_ADDRESS_REGEX = buildSimpleAddressRegex();
     public static final String SIMPLE_ROAD_ADDRESS_REGEX = buildSimpleRoadAddressRegex();
+    public static final String CITY_REGION_REGEX = buildCityRegionRegex();
     public static final Pattern SIMPLE_ADDRESS_PATTERN = Pattern.compile(SIMPLE_ADDRESS_REGEX);
     public static final Pattern SIMPLE_ROAD_ADDRESS_PATTERN = Pattern.compile(SIMPLE_ROAD_ADDRESS_REGEX);
+    public static final Pattern CITY_REGION_PATTERN = Pattern.compile(CITY_REGION_REGEX);
+
     // 세종특별자치시
     public static final String SPECIAL_SELF_GOVERNING_CITY_ROAD_REGEX = buildSpecialSelfGoverningCityRoadRegex();
     public static final String SPECIAL_SELF_GOVERNING_CITY_NEIGHBORHOOD_REGEX = buildSpecialSelfGoverningCityNeighborhoodRegex();
@@ -123,4 +126,10 @@ public class AddressRegexUtil {
     public static String buildRegionRegex() {
         return String.format("(%s\\s%s|%s\\s%s|%s|%s|%s|%s|%s|%s)", CITY, DISTRICT, CITY, COUNTY, CITY, COUNTY, DISTRICT, SPECIAL_SELF_GOVERNING_CITY, SPECIAL_SELF_GOVERNING_PROVINCE, SPECIAL_SELF_GOVERNING_CITY);
     }
+
+    public static String buildCityRegionRegex() {
+        return String.format("((%s)?\\s?(%s)\\s?)",
+                buildCityRegex(), buildRegionRegex());
+    }
+
 }
