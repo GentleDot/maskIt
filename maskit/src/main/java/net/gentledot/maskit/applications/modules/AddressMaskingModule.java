@@ -54,6 +54,14 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
         return result.toString();
     }
 
+    private String maskAddress(String data, int fromIndex, int toIndex) {
+        StringBuilder maskedData = new StringBuilder(data);
+        for (int i = fromIndex; i < toIndex; i++) {
+            maskedData.setCharAt(i, '*');
+        }
+        return maskedData.toString();
+    }
+
     private String maskGroup(String group) {
         StringBuilder masked = new StringBuilder(group.length());
         for (int i = 0; i < group.length(); i++) {
@@ -68,11 +76,7 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
         if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
             throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
         }
-        StringBuilder masked = new StringBuilder(data);
-        for (int i = fromIndex; i < toIndex; i++) {
-            masked.setCharAt(i, '*');
-        }
-        return masked.toString();
+        return maskAddress(data, fromIndex, toIndex);
     }
 
     @Override

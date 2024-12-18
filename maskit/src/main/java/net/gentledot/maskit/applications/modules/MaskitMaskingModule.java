@@ -12,7 +12,9 @@ public abstract class MaskitMaskingModule {
     // 데이터의 앞부분을 마스킹
     protected String maskFront(String data, int length) {
         try {
-            if (isEmpty(data) || length > data.length()) {
+            if (isEmpty(data)) {
+                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+            } else if (length > data.length()) {
                 throw new MaskingServiceException(ServiceError.MASKING_INVALID_LENGTH);
             }
             StringBuilder masked = new StringBuilder(data);
@@ -29,7 +31,9 @@ public abstract class MaskitMaskingModule {
     // 데이터의 뒷부분을 마스킹
     protected String maskBack(String data, int length) {
         try {
-            if (isEmpty(data) || length > data.length()) {
+            if (isEmpty(data)) {
+                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+            } else if (length > data.length()) {
                 throw new MaskingServiceException(ServiceError.MASKING_INVALID_LENGTH);
             }
             StringBuilder masked = new StringBuilder(data);
@@ -46,8 +50,8 @@ public abstract class MaskitMaskingModule {
     // 정규 표현식을 사용하여 데이터를 마스킹
     protected String maskWithRegex(String data, Pattern regex) {
         try {
-            if (data == null || regex == null) {
-                throw new IllegalArgumentException("Invalid arguments for masking");
+            if (isEmpty(data) || regex == null) {
+                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
             }
             Matcher matcher = regex.matcher(data);
             StringBuffer result = new StringBuffer();
