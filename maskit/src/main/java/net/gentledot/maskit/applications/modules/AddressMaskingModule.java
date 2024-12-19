@@ -1,8 +1,6 @@
 package net.gentledot.maskit.applications.modules;
 
 import net.gentledot.maskit.exceptions.ExceptionHandler;
-import net.gentledot.maskit.exceptions.MaskingServiceException;
-import net.gentledot.maskit.exceptions.ServiceError;
 import net.gentledot.maskit.models.util.AddressRegexUtil;
 import net.gentledot.maskit.models.vaildator.AddressValidator;
 import net.gentledot.maskit.models.vaildator.DataValidator;
@@ -54,14 +52,6 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
         return result.toString();
     }
 
-    private String maskAddress(String data, int fromIndex, int toIndex) {
-        StringBuilder maskedData = new StringBuilder(data);
-        for (int i = fromIndex; i < toIndex; i++) {
-            maskedData.setCharAt(i, '*');
-        }
-        return maskedData.toString();
-    }
-
     private String maskGroup(String group) {
         StringBuilder masked = new StringBuilder(group.length());
         for (int i = 0; i < group.length(); i++) {
@@ -73,10 +63,7 @@ public class AddressMaskingModule extends MaskitMaskingModule implements Masking
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
-        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
-            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-        }
-        return maskAddress(data, fromIndex, toIndex);
+        return super.maskIndex(data, fromIndex, toIndex);
     }
 
     @Override

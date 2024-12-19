@@ -7,7 +7,7 @@ import net.gentledot.maskit.models.util.AddressRegexUtil;
 
 public class AddressValidator implements DataValidator {
     public boolean isValid(String address) {
-        if (address == null) {
+        if (isEmpty(address)) {
             ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null address is not allowed.");
         }
         return AddressRegexUtil.ROAD_ADDRESS_PATTERN.matcher(address).matches() ||

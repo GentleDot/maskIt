@@ -70,6 +70,17 @@ public abstract class MaskitMaskingModule {
         return data;
     }
 
+    protected String maskIndex(String data, int fromIndex, int toIndex) {
+        if (isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
+            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+        }
+        StringBuilder maskedData = new StringBuilder(data);
+        for (int i = fromIndex; i < toIndex; i++) {
+            maskedData.setCharAt(i, '*');
+        }
+        return maskedData.toString();
+    }
+
     protected boolean isEmpty(String data) {
         if (data == null) {
             return true;
@@ -80,4 +91,6 @@ public abstract class MaskitMaskingModule {
     protected boolean isNotEmpty(String data) {
         return !isEmpty(data);
     }
+
+
 }

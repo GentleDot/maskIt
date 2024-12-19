@@ -58,10 +58,7 @@ class AddressMaskingModuleTest {
 
     @Test
     void testMaskWhenEmptyInputThenThrowMaskingServiceException() {
-        String data = "";
-        String maskedAddress = addressMaskingModule.mask(data);
-
-        assertNotNull(maskedAddress);
-        assertEquals(data, maskedAddress);
+        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> addressMaskingModule.mask(""));
+        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
     }
 }

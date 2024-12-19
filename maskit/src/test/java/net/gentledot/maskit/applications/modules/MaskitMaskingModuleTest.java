@@ -112,4 +112,49 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
         Pattern regex = null;
         assertThrows(MaskingServiceException.class, () -> maskWithRegex(data, regex));
     }
+
+    @Test
+    void testMaskIndexWhenDataIsNullThenThrowException() {
+        String data = null;
+        int fromIndex = 0;
+        int toIndex = 3;
+        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskIndex(data, fromIndex, toIndex));
+        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
+    }
+
+    @Test
+    void testMaskIndexWhenFromIndexIsLessThanZeroThenThrowException() {
+        String data = "12345";
+        int fromIndex = -1;
+        int toIndex = 3;
+        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskIndex(data, fromIndex, toIndex));
+        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
+    }
+
+    @Test
+    void testMaskIndexWhenToIndexIsGreaterThanDataLengthThenThrowException() {
+        String data = "12345";
+        int fromIndex = 0;
+        int toIndex = 6;
+        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskIndex(data, fromIndex, toIndex));
+        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
+    }
+
+    @Test
+    void testMaskIndexWhenFromIndexIsGreaterThanOrEqualToToIndexThenThrowException() {
+        String data = "12345";
+        int fromIndex = 3;
+        int toIndex = 3;
+        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskIndex(data, fromIndex, toIndex));
+        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
+    }
+
+    @Test
+    void testMaskIndexWhenDataIsValidThenReturnMaskedData() {
+        String data = "12345";
+        int fromIndex = 1;
+        int toIndex = 4;
+        String result = maskIndex(data, fromIndex, toIndex);
+        assertEquals("1***5", result);
+    }
 }
