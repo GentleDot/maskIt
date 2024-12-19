@@ -7,6 +7,7 @@ import net.gentledot.maskit.models.vaildator.DataValidator;
 import java.util.regex.Pattern;
 
 public class CreditCardMaskingModule extends MaskitMaskingModule implements MaskingModule {
+    public static final int REMAIN_DIGIT_LENGTH = 4;
     private final DataValidator validator;
 
     private CreditCardMaskingModule(DataValidator validator) {
@@ -26,7 +27,7 @@ public class CreditCardMaskingModule extends MaskitMaskingModule implements Mask
         validator.isValid(data);
         try {
             StringBuilder maskedData = new StringBuilder(data);
-            for (int i = 0; i < data.length() - 4; i++) {
+            for (int i = 0; i < data.length() - REMAIN_DIGIT_LENGTH; i++) {
                 if (Character.isDigit(data.charAt(i))) {
                     maskedData.setCharAt(i, '*');
                 }
