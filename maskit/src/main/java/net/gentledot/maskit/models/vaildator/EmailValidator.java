@@ -14,11 +14,15 @@ public class EmailValidator implements DataValidator {
             ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null credit card number is not allowed.");
         }
 
-        if (email.endsWith(".")) { // check this first - it's cheap!
-            return false;
+        if (email == null || email.endsWith(".")) { // check this first - it's cheap!
+            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
         }
-        // Check the whole email address structure
+
         final Matcher emailMatcher = EmailRegexUtil.EMAIL_PATTERN.matcher(email);
-        return emailMatcher.matches();
+
+        if (!emailMatcher.matches()) {
+            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+        }
+        return true;
     }
 }
