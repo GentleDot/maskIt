@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class CreditCardValidatorTest {
     private CreditCardValidator creditCardValidator = new CreditCardValidator();
@@ -50,8 +49,7 @@ class CreditCardValidatorTest {
 
     @Test
     void testisValidWhenEmptyThenFalse() {
-        String emptyCreditCard = "";
-        assertFalse(creditCardValidator.isValid(emptyCreditCard), "Expected empty credit card number to return false");
+        Assertions.assertThrows(MaskingServiceException.class, () -> creditCardValidator.isValid(""));
     }
 
     @Test

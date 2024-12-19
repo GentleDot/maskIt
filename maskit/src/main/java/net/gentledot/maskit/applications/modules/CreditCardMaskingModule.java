@@ -1,8 +1,6 @@
 package net.gentledot.maskit.applications.modules;
 
 import net.gentledot.maskit.exceptions.ExceptionHandler;
-import net.gentledot.maskit.exceptions.MaskingServiceException;
-import net.gentledot.maskit.exceptions.ServiceError;
 import net.gentledot.maskit.models.vaildator.CreditCardValidator;
 import net.gentledot.maskit.models.vaildator.DataValidator;
 
@@ -27,7 +25,14 @@ public class CreditCardMaskingModule extends MaskitMaskingModule implements Mask
     public String mask(String data) {
         validator.isValid(data);
         try {
-            return data.replaceAll("(\\d{4})\\d{8}(\\d{4})", "$1****$2");
+            StringBuilder maskedData = new StringBuilder(data);
+            for (int i = 0; i < data.length() - 4; i++) {
+                if (Character.isDigit(data.charAt(i))) {
+                    maskedData.setCharAt(i, '*');
+                }
+            }
+
+            return maskedData.toString();
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
         }
@@ -36,14 +41,7 @@ public class CreditCardMaskingModule extends MaskitMaskingModule implements Mask
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
-        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
-            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-        }
-        StringBuilder masked = new StringBuilder(data);
-        for (int i = fromIndex; i < toIndex; i++) {
-            masked.setCharAt(i, '*');
-        }
-        return masked.toString();
+        return super.maskIndex(data, fromIndex, toIndex);
     }
 
     @Override

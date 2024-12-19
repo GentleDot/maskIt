@@ -21,7 +21,7 @@ class DataMaskingTest {
     @Test
     void testCreditCardModuleMaskedCreditCard() {
         String data = "1234567812345678";
-        String expectedMaskedData = "1234****5678";
+        String expectedMaskedData = "************5678";
         String actualMaskedData = dataMasking.getModule(DataTypes.CREDIT_CARD).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }

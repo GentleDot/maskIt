@@ -56,8 +56,9 @@ public abstract class MaskitMaskingModule {
             Matcher matcher = regex.matcher(data);
             StringBuffer result = new StringBuffer();
             while (matcher.find()) {
-                StringBuilder masked = new StringBuilder();
-                for (int i = 0; i < matcher.group().length(); i++) {
+                String matchedGroup = matcher.group();
+                StringBuilder masked = new StringBuilder(matchedGroup.length());
+                for (int i = 0; i < matchedGroup.length(); i++) {
                     masked.append('*');
                 }
                 matcher.appendReplacement(result, masked.toString());
@@ -70,6 +71,8 @@ public abstract class MaskitMaskingModule {
         return data;
     }
 
+
+    // index 범위만큼 마스킹
     protected String maskIndex(String data, int fromIndex, int toIndex) {
         if (isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
             throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);

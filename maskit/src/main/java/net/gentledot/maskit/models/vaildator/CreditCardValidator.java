@@ -8,7 +8,7 @@ import net.gentledot.maskit.models.util.CreditCardRegexUtil;
 public class CreditCardValidator implements DataValidator {
 
     public boolean isValid(String creditCard) {
-        if (creditCard == null) {
+        if (isEmpty(creditCard) || creditCard.length() < 4) {
             ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null credit card number is not allowed.");
         }
 
