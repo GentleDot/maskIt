@@ -106,3 +106,8 @@ jobs:
 
             -   name: Publish to local Maven repository
                 run: cd maskit && ./gradlew publishToMavenLocal
+
+            -   name: get tag build from jitpack
+                run: |
+                    response=$(curl -X GET https://jitpack.io/api/builds/com.github.GentleDot/maskIt/${{ steps.get_version.outputs.version }} -uTOKEN:${{ secrets.JITPACK_TOKEN }})
+                    echo "JitPack build status: $response"
