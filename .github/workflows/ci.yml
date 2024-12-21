@@ -47,19 +47,19 @@ jobs:
                 id: get_version
                 run: |
                     VERSION=$(grep -Eo "version = '[^']+'" ./maskit/build.gradle | awk -F"'" '{print $2}')
-                    echo "VERSION=${VERSION}" >> $GITHUB_ENV
+                    echo "MY_VERSION=${VERSION}" >> $GITHUB_ENV
 
             -   name: Tag the commit
                 run: |
-                    git tag -a "${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
-                    git push origin "${{ env.VERSION }}"
+                    git tag -a "${{ env.MY_VERSION }}" -m "Release version ${{ env.MY_VERSION }}"
+                    git push origin "${{ env.MY_VERSION }}"
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Read release notes
                 id: read_release_notes
                 run: |
-                    TAG_NAME=${{ env.VERSION }}
+                    TAG_NAME=${{ env.MY_VERSION }}
                     cat updates/${TAG_NAME}.md > release_notes.txt
                     echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
@@ -70,8 +70,8 @@ jobs:
             -   name: Create a GitHub Release
                 uses: softprops/action-gh-release@v1
                 with:
-                    tag_name: ${{ env.VERSION }}
-                    release_name: Release ${{ env.VERSION }}
+                    tag_name: ${{ env.MY_VERSION }}
+                    release_name: Release ${{ env.MY_VERSION }}
                     body: ${{ env.RELEASE_NOTES }}
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
