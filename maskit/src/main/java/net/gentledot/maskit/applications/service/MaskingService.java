@@ -1,26 +1,20 @@
 package net.gentledot.maskit.applications.service;
 
-import net.gentledot.maskit.applications.modules.AddressMaskingModule;
-import net.gentledot.maskit.applications.modules.CreditCardMaskingModule;
-import net.gentledot.maskit.applications.modules.EmailMaskingModule;
 import net.gentledot.maskit.applications.modules.MaskingModule;
-import net.gentledot.maskit.applications.modules.NameMaskingModule;
-import net.gentledot.maskit.applications.modules.PhoneNumberMaskingModule;
-import net.gentledot.maskit.applications.modules.SSNMaskingModule;
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
 import net.gentledot.maskit.exceptions.ServiceError;
 import net.gentledot.maskit.models.DataTypes;
 
 public class MaskingService {
-    private final CreditCardMaskingModule creditCardMaskingModule;
-    private final SSNMaskingModule ssnMaskingModule;
-    private final EmailMaskingModule emailMaskingModule;
-    private final PhoneNumberMaskingModule phoneNumberMaskingModule;
-    private final NameMaskingModule nameMaskingModule;
-    private final AddressMaskingModule addressMaskingModule;
+    private final MaskingModule creditCardMaskingModule;
+    private final MaskingModule ssnMaskingModule;
+    private final MaskingModule emailMaskingModule;
+    private final MaskingModule phoneNumberMaskingModule;
+    private final MaskingModule nameMaskingModule;
+    private final MaskingModule addressMaskingModule;
 
-    public MaskingService(CreditCardMaskingModule creditCardMaskingModule, SSNMaskingModule ssnMaskingModule, EmailMaskingModule emailMaskingModule, PhoneNumberMaskingModule phoneNumberMaskingModule, NameMaskingModule nameMaskingModule, AddressMaskingModule addressMaskingModule) {
+    public MaskingService(MaskingModule creditCardMaskingModule, MaskingModule ssnMaskingModule, MaskingModule emailMaskingModule, MaskingModule phoneNumberMaskingModule, MaskingModule nameMaskingModule, MaskingModule addressMaskingModule) {
         this.creditCardMaskingModule = creditCardMaskingModule;
         this.ssnMaskingModule = ssnMaskingModule;
         this.emailMaskingModule = emailMaskingModule;
