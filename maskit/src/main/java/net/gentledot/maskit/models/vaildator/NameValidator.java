@@ -8,7 +8,7 @@ import net.gentledot.maskit.models.util.NameRegexUtil;
 public class NameValidator implements DataValidator {
 
     public boolean isValid(String name) {
-        if (name == null) {
+        if (isEmpty(name)) {
             ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null name is not allowed.");
         }
 
