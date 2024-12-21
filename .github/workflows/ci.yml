@@ -50,10 +50,15 @@ jobs:
                     echo "Version extracted: $VERSION"
                     echo "::set-output name=version::$VERSION"
 
+            - name: Set up Git automate user
+              run: |
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+
             -   name: Tag the commit
                 run: |
-                    git tag -a "${{ steps.get_version.outputs.version }}" -m "Release version  ${{ steps.get_version.outputs.version }}"
-                    git push origin "${{ steps.get_version.outputs.version }}"
+                    git tag -a " ${{ steps.get_version.outputs.version }}" -m "Release version  ${{ steps.get_version.outputs.version }}"
+                    git push origin " ${{ steps.get_version.outputs.version }}"
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
