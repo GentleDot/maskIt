@@ -43,25 +43,24 @@ jobs:
                     distribution: 'temurin'
 
 
-            -   name: Set MY_VERSION from branch name
-                id: set_version
+            -   name: Get version from build.gradle
+                id: get_version
                 run: |
-                    # Get the branch name and remove 'refs/heads/' prefix
-                    BRANCH_NAME=${GITHUB_REF#refs/heads/}
-                    # Set MY_VERSION to the branch name
-                    echo "MY_VERSION=${BRANCH_NAME}" >> $GITHUB_ENV
+                    VERSION=$(grep -Eo "version = '[^']+'" ./maskit/build.gradle | awk -F"'" '{print $2}')
+                    echo "Version extracted: $VERSION"
+                    echo "::set-output name=version::$VERSION"
 
             -   name: Tag the commit
                 run: |
-                    git tag -a "${{ env.MY_VERSION }}" -m "Release version ${{ env.MY_VERSION }}"
-                    git push origin "${{ env.MY_VERSION }}"
+                    git tag -a " ${{ steps.get_version.outputs.version }}" -m "Release version  ${{ steps.get_version.outputs.version }}"
+                    git push origin " ${{ steps.get_version.outputs.version }}"
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Read release notes
                 id: read_release_notes
                 run: |
-                    TAG_NAME=${{ env.MY_VERSION }}
+                    TAG_NAME= ${{ steps.get_version.outputs.version }}
                     cat updates/${TAG_NAME}.md > release_notes.txt
                     echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
@@ -72,8 +71,8 @@ jobs:
             -   name: Create a GitHub Release
                 uses: softprops/action-gh-release@v1
                 with:
-                    tag_name: ${{ env.MY_VERSION }}
-                    release_name: Release ${{ env.MY_VERSION }}
+                    tag_name: ${{ steps.get_version.outputs.version }}
+                    release_name: Release  ${{ steps.get_version.outputs.version }}
                     body: ${{ env.RELEASE_NOTES }}
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
