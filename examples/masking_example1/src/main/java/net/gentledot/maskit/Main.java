@@ -1,11 +1,12 @@
 package net.gentledot.maskit;
 
+import net.gentledot.maskit.applications.modules.MaskingModule;
 import net.gentledot.maskit.models.DataTypes;
 
 public class Main {
     public static void main(String[] args) {
-        DataMasking dataMasking = new DataMasking();
-        String maskedEmail = dataMasking.getModule(DataTypes.EMAIL).mask("example@example.com");
-        System.out.println("Masked Email: " + maskedEmail); // Masked Email: e***@example.com
+        DataMasking masking = DataMasking.builder().build(); // 기본 제공 기능으로 구현
+        MaskingModule nameMaskingModule = masking.getModule(DataTypes.NAME);
+        String masked = nameMaskingModule.mask("홍길동"); // 홍**
     }
 }
