@@ -14,6 +14,19 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 
+javadoc {
+    options {
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+        destinationDir = layout.buildDirectory.dir("docs/javadoc").get().asFile
+        source = sourceSets.main.allJava
+    }
+}
+
+tasks.register('javadocJar', Jar) {
+    archiveClassifier.set('javadoc')
+    from javadoc // Assuming you have a javadoc task defined
+}
 
 publishing {
     publications {
@@ -22,6 +35,7 @@ publishing {
             artifactId = 'maskit'
             version = projectVersion
             from components.java
+            artifact javadocJar
         }
     }
 }
