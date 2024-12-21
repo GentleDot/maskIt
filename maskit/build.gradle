@@ -2,7 +2,7 @@ plugins {
     id('java')
     id('maven-publish')
 }
-def projectVersion = '0.0.4'
+def projectVersion = '0.0.5'
 group = 'net.gentledot'
 version = projectVersion
 
