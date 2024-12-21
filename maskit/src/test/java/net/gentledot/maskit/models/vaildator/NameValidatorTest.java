@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NameValidatorTest {
@@ -21,15 +22,13 @@ class NameValidatorTest {
     @Test
     void falseTest_isValidWhenInputIsTooShortThenReturnFalse() {
         String name = "홍";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test
     void falseTest_isValidWhenInputIsTooLongThenReturnFalse() {
         String name = "홍istoolong동";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test
@@ -40,10 +39,10 @@ class NameValidatorTest {
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsSpacesThenReturnFalse() {
+    void testIsValidWhenInputContainsSpacesThenReturnTrue() {
         String name = "홍 길 동";
         boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertTrue(result);
     }
 
     @Test
@@ -77,29 +76,25 @@ class NameValidatorTest {
     @Test
     void falseTest_isValidWhenInputContainsMixedKoreanAndEnglishCharactersThenReturnFalse() {
         String name = "홍길동abc홍";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test
     void falseTest_isValidWhenInputContainsOnlyKoreanCharactersButTooShortThenReturnFalse() {
         String name = "가";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test
     void falseTest_isValidWhenInputContainsOnlyKoreanCharactersButTooLongThenReturnFalse() {
         String name = "가나다라마바사아";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test
     void testIsNameWhenInputsIBlanklThenReturnFalse() {
         String name = "";
-        boolean result = nameValidator.isValid(name);
-        assertFalse(result);
+        assertThrows(MaskingServiceException.class, () -> nameValidator.isValid(name));
     }
 
     @Test

@@ -74,11 +74,11 @@ public abstract class MaskitMaskingModule {
 
     // index 범위만큼 마스킹
     protected String maskIndex(String data, int fromIndex, int toIndex) {
-        if (isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
+        if (isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex > toIndex) {
             throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
         }
         StringBuilder maskedData = new StringBuilder(data);
-        for (int i = fromIndex; i < toIndex; i++) {
+        for (int i = fromIndex; i <= toIndex; i++) {
             maskedData.setCharAt(i, '*');
         }
         return maskedData.toString();

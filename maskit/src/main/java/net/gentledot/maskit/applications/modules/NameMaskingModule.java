@@ -1,11 +1,11 @@
 package net.gentledot.maskit.applications.modules;
 
 import net.gentledot.maskit.exceptions.ExceptionHandler;
-import net.gentledot.maskit.exceptions.MaskingServiceException;
-import net.gentledot.maskit.exceptions.ServiceError;
+import net.gentledot.maskit.models.util.NameRegexUtil;
 import net.gentledot.maskit.models.vaildator.DataValidator;
 import net.gentledot.maskit.models.vaildator.NameValidator;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NameMaskingModule extends MaskitMaskingModule implements MaskingModule {
@@ -27,23 +27,38 @@ public class NameMaskingModule extends MaskitMaskingModule implements MaskingMod
     public String mask(String data) {
         validator.isValid(data);
         try {
-            return data.replaceAll("(^.)(.*)", "$1*");
+            Matcher matcher = NameRegexUtil.FULL_NAME_PATTERN.matcher(data);
+            if (matcher.matches()) {
+                String lastName = matcher.group(1); // 성
+                String space = matcher.group(2) != null ? matcher.group(2) : ""; // 공백
+                String firstName = matcher.group(3); // 이름
+
+                // 이름의 길이에 따라 마스킹 처리
+                if (data.length() <= 3) {
+                    // 3글자 이하인 경우, 뒤의 2글자를 마스킹
+                    return data.charAt(0) + maskPart(data.substring(1));
+                } else {
+                    // 3글자 초과인 경우, 이름 전체를 마스킹
+                    return lastName + space + maskPart(firstName);
+                }
+            }
         } catch (Exception e) {
             ExceptionHandler.handleException(e, "masking error occurred.");
         }
         return data;
     }
 
-    @Override
-    public String mask(String data, int fromIndex, int toIndex) {
-        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
-            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-        }
-        StringBuilder masked = new StringBuilder(data);
-        for (int i = fromIndex; i < toIndex; i++) {
-            masked.setCharAt(i, '*');
+    private String maskPart(String part) {
+        StringBuilder masked = new StringBuilder(part.length());
+        for (int i = 0; i < part.length(); i++) {
+            masked.append('*');
         }
         return masked.toString();
+    }
+
+    @Override
+    public String mask(String data, int fromIndex, int toIndex) {
+        return super.maskIndex(data, fromIndex, toIndex);
     }
 
     @Override

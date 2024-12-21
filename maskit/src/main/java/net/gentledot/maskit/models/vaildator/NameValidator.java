@@ -13,9 +13,9 @@ public class NameValidator implements DataValidator {
         }
 
         if (name.length() < 2 || name.length() > 6) {
-            return false; // 2 ~ 6 자
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "name length must be between 2 and 6.");
         }
 
-        return NameRegexUtil.NAME_PATTERN.matcher(name).matches();
+        return NameRegexUtil.FULL_NAME_PATTERN.matcher(name).matches();
     }
 }

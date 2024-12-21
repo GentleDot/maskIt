@@ -37,7 +37,7 @@ public class PhoneNumberMaskingModule extends MaskitMaskingModule implements Mas
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
-        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
+        if (super.isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex > toIndex) {
             throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
         }
         StringBuilder masked = new StringBuilder(data);
