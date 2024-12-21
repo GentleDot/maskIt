@@ -85,12 +85,27 @@ import net.gentledot.maskit.DataMasking;
 
 public class MaskingExample {
   public static void main(String[] args) {
-    DataMasking dataMasking = new DataMasking();
+    DataMasking masking = DataMasking.builder().build(); // 기본 제공 기능으로 구현
   }
 }
 ```
 
 - MaskIt 라이브러리를 사용하려면 DataMasking 클래스의 인스턴스를 생성해야 합니다.
+
+- 또는 원하는 마스킹 기능을 구현한 MaskingModule을 추가하여 설정 하실 수 있습니다.
+  - 구체적인 예시는 [examples/masking_example2](./examples/masking_example2) 에서 확인하실 수 있습니다.
+
+```java
+import net.gentledot.maskit.DataMasking;
+
+public class MaskingExample {
+  public static void main(String[] args) {
+    DataMasking masking = DataMasking.builder()
+                    .addressMaskingModule(new CustomAddressMaskingModule())
+                    .build(); // address module을 별도 생성 후 구성
+  }
+}
+```
 
 ### 2. 데이터 유형 설정
 
@@ -99,7 +114,7 @@ import net.gentledot.maskit.models.DataTypes;
 
 public class MaskingExample {
   public static void main(String[] args) {
-    String data = "01012345678";
+    DataMasking dataMasking = DataMasking.builder().build(); // 기본 제공 기능으로 구현     
     MaskingModule module = dataMasking.getModule(DataTypes.PHONE_NUMBER);
   }
 }
@@ -128,19 +143,22 @@ import net.gentledot.maskit.models.DataTypes;
 
 public class MaskingExample {
   public static void main(String[] args) {
-    String data = "01012345678";
+    DataMasking dataMasking = DataMasking.builder().build(); // 기본 제공 기능으로 구현     
     MaskingModule module = dataMasking.getModule(DataTypes.PHONE_NUMBER);
+    
+    String data = "01012345678";
     String actualMaskedData = module.mask(data); // 010****5678
   }
 }
 ```
 
-이외에도 아래의 기능을 사용할 수 있습니다.
+마스킹은 크게 5가지의 방식으로 제공됩니다.
 
-- 특정 인덱스 범위 내에서 데이터 마스킹
-- 데이터의 앞부분 마스킹
-- 데이터의 뒷부분 마스킹
-- 정규 표현식을 사용하여 데이터 마스킹
+1. 기본 제공 마스킹
+2. 특정 인덱스 범위 내에서 데이터 마스킹
+3. 데이터의 앞부분 마스킹
+4. 데이터의 뒷부분 마스킹
+5. 사용자 정의 정규 표현식을 사용하여 데이터 마스킹
 
 ## 라이선스
 
