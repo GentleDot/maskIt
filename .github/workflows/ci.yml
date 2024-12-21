@@ -46,7 +46,7 @@ jobs:
             -   name: Get version from build.gradle
                 id: get_version
                 run: |
-                    VERSION=$(grep -Eo "version = '[^']+'" build.gradle | awk -F"'" '{print $2}')
+                    VERSION=$(grep -Eo "version = '[^']+'" ./maskit/build.gradle | awk -F"'" '{print $2}')
                     echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
             -   name: Tag the commit
