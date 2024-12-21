@@ -23,7 +23,6 @@ class NameMaskingModuleTest {
             "최 길동, 최 **",
             "선우용녀, 선우**",
             "남궁민수, 남궁**"
-
     })
     void testMaskingName(String input, String expected) {
         String result = nameMaskingModule.mask(input);
@@ -34,7 +33,7 @@ class NameMaskingModuleTest {
     @CsvSource({
             "박"
     })
-    void testInvalidName(String input) {
+    void testFail_InvalidName(String input) {
         assertThrows(MaskingServiceException.class, () -> {
             nameMaskingModule.mask(input);
         });
@@ -79,6 +78,7 @@ class NameMaskingModuleTest {
         Pattern regex = Pattern.compile("길");
         String expected = "홍*동";
         String result = nameMaskingModule.maskWithRegex(input, regex);
+
         assertEquals(expected, result);
     }
 }

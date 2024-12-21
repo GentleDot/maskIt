@@ -49,15 +49,14 @@ class AddressMaskingModuleTest {
         assertEquals(expectedMaskedAddress, maskedAddress);
     }
 
-
     @Test
-    void testMaskWhenNullInputThenThrowMaskingServiceException() {
+    void testFail_MaskWhenNullInputThenThrowMaskingServiceException() {
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> addressMaskingModule.mask(null));
         assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
     }
 
     @Test
-    void testMaskWhenEmptyInputThenThrowMaskingServiceException() {
+    void testFail_MaskWhenEmptyInputThenThrowMaskingServiceException() {
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> addressMaskingModule.mask(""));
         assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
     }

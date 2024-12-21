@@ -25,7 +25,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskFrontWithInvalidLength() {
+    void testFail_MaskFrontWithInvalidLength() {
         String data = "123";
         int length = 5;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskFront(data, length));
@@ -33,7 +33,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskFrontWithNullData() {
+    void testFail_MaskFrontWithNullData() {
         String data = null;
         int length = 3;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskFront(data, length));
@@ -41,7 +41,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskFrontWithEmptyData() {
+    void testFail_MaskFrontWithEmptyData() {
         String data = "";
         int length = 3;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskFront(data, length));
@@ -62,7 +62,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskBackWithInvalidLength() {
+    void testFail_MaskBackWithInvalidLength() {
         String data = "123";
         int length = 5;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskBack(data, length));
@@ -70,7 +70,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskBackWithNullData() {
+    void testFail_MaskBackWithNullData() {
         String data = null;
         int length = 3;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskBack(data, length));
@@ -78,7 +78,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskBackWithEmptyData() {
+    void testFail_MaskBackWithEmptyData() {
         String data = "";
         int length = 3;
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskBack(data, length));
@@ -99,7 +99,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskWithRegexWithNullData() {
+    void testFail_MaskWithRegexWithNullData() {
         String data = null;
         Pattern regex = Pattern.compile("\\d");
         MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskWithRegex(data, regex));
@@ -107,14 +107,14 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void failTest_MaskWithRegexWithNullRegex() {
+    void testFail_MaskWithRegexWithNullRegex() {
         String data = "12345";
         Pattern regex = null;
         assertThrows(MaskingServiceException.class, () -> maskWithRegex(data, regex));
     }
 
     @Test
-    void testMaskIndexWhenDataIsNullThenThrowException() {
+    void testFail_MaskIndexWhenDataIsNullThenThrowException() {
         String data = null;
         int fromIndex = 0;
         int toIndex = 3;
@@ -123,7 +123,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void testMaskIndexWhenFromIndexIsLessThanZeroThenThrowException() {
+    void testFail_MaskIndexWhenFromIndexIsLessThanZeroThenThrowException() {
         String data = "12345";
         int fromIndex = -1;
         int toIndex = 3;
@@ -132,7 +132,7 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void testMaskIndexWhenToIndexIsGreaterThanDataLengthThenThrowException() {
+    void testFail_MaskIndexWhenToIndexIsGreaterThanDataLengthThenThrowException() {
         String data = "12345";
         int fromIndex = 0;
         int toIndex = 6;

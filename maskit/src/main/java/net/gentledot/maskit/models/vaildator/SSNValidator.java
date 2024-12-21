@@ -8,9 +8,14 @@ import net.gentledot.maskit.models.util.SSNRegexUtil;
 public class SSNValidator implements DataValidator {
 
     public boolean isValid(String ssn) {
-        if (ssn == null) {
+        if (isEmpty(ssn)) {
             ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "null ssn number is not allowed.");
         }
-        return SSNRegexUtil.SSN_PATTERN.matcher(ssn).matches();
+        boolean matches = SSNRegexUtil.SSN_PATTERN.matcher(ssn).matches();
+
+        if (!matches) {
+            ExceptionHandler.handleException(new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST), "Invalid SSN format.");
+        }
+        return true;
     }
 }

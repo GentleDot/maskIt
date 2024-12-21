@@ -58,7 +58,7 @@ class EmailMaskingModuleTest {
             "username@com.com-",
             "username@com.com."
     })
-    void testMaskEmailWhenInvalidEmailThenThrowException(String invalidEmail) {
+    void testFail_MaskEmailWhenInvalidEmailThenThrowException(String invalidEmail) {
         assertThrows(MaskingServiceException.class, () -> emailMaskingModule.mask(invalidEmail));
     }
 }

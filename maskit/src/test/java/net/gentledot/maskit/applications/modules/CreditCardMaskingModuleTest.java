@@ -41,7 +41,7 @@ class CreditCardMaskingModuleTest {
     }
 
     @Test
-    void testMaskWhenInvalidInputThenHandleError() {
+    void testFail_MaskWhenInvalidInputThenHandleError() {
         String invalidCreditCardNumber = "123";
         assertThrows(MaskingServiceException.class, () -> creditCardMaskingModule.mask(invalidCreditCardNumber));
     }
@@ -80,11 +80,10 @@ class CreditCardMaskingModuleTest {
     }
 
     @Test
-    void testMaskWithRegexWhenInvalidInputThenHandleError() {
+    void testFail_MaskWithRegexWhenInvalidInputThenHandleError() {
         String data = "4111-1111-1111-1111";
         Pattern regex = null;
 
         assertThrows(MaskingServiceException.class, () -> creditCardMaskingModule.maskWithRegex(data, regex));
     }
-
 }
