@@ -1,4 +1,4 @@
-package net.gentledot.maskit.applications.utils;
+package net.gentledot.maskit.applications.modules;
 
 import net.gentledot.maskit.exceptions.ExceptionHandler;
 import net.gentledot.maskit.exceptions.MaskingServiceException;
@@ -7,42 +7,14 @@ import net.gentledot.maskit.exceptions.ServiceError;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MaskingUtil {
-    private MaskingUtil() {
-    }
+public abstract class MaskitMaskingModule {
 
-    public static String mask(String data, String regex, String replacement) {
+    // 데이터의 앞부분을 마스킹
+    protected String maskFront(String data, int length) {
         try {
-            if (data == null) {
+            if (isEmpty(data)) {
                 throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
-            }
-            return data.replaceAll(regex, replacement);
-        } catch (Exception e) {
-            ExceptionHandler.handleException(e, "masking error occurred.");
-        }
-        return data;
-    }
-
-    public static String mask(String data, int fromIndex, int toIndex) {
-        try {
-            if (data == null || fromIndex < 0 || toIndex > data.length() || fromIndex >= toIndex) {
-                throw new MaskingServiceException(ServiceError.MASKING_INVALID_INDEX);
-            }
-            StringBuilder masked = new StringBuilder(data);
-            for (int i = fromIndex; i < toIndex; i++) {
-                masked.setCharAt(i, '*');
-            }
-            return masked.toString();
-        } catch (Exception e) {
-            ExceptionHandler.handleException(e, "masking (range) error occurred.");
-        }
-
-        return data;
-    }
-
-    public static String maskFront(String data, int length) {
-        try {
-            if (data == null || length < 0 || length > data.length()) {
+            } else if (length > data.length()) {
                 throw new MaskingServiceException(ServiceError.MASKING_INVALID_LENGTH);
             }
             StringBuilder masked = new StringBuilder(data);
@@ -56,9 +28,12 @@ public class MaskingUtil {
         return data;
     }
 
-    public static String maskBack(String data, int length) {
+    // 데이터의 뒷부분을 마스킹
+    protected String maskBack(String data, int length) {
         try {
-            if (data == null || length < 0 || length > data.length()) {
+            if (isEmpty(data)) {
+                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+            } else if (length > data.length()) {
                 throw new MaskingServiceException(ServiceError.MASKING_INVALID_LENGTH);
             }
             StringBuilder masked = new StringBuilder(data);
@@ -72,16 +47,18 @@ public class MaskingUtil {
         return data;
     }
 
-    public static String maskWithRegex(String data, Pattern regex) {
+    // 정규 표현식을 사용하여 데이터를 마스킹
+    protected String maskWithRegex(String data, Pattern regex) {
         try {
-            if (data == null || regex == null) {
-                throw new IllegalArgumentException("Invalid arguments for masking");
+            if (isEmpty(data) || regex == null) {
+                throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
             }
             Matcher matcher = regex.matcher(data);
             StringBuffer result = new StringBuffer();
             while (matcher.find()) {
-                StringBuilder masked = new StringBuilder();
-                for (int i = 0; i < matcher.group().length(); i++) {
+                String matchedGroup = matcher.group();
+                StringBuilder masked = new StringBuilder(matchedGroup.length());
+                for (int i = 0; i < matchedGroup.length(); i++) {
                     masked.append('*');
                 }
                 matcher.appendReplacement(result, masked.toString());
@@ -94,7 +71,29 @@ public class MaskingUtil {
         return data;
     }
 
-    public static boolean isBlank(String data) {
+
+    // index 범위만큼 마스킹
+    protected String maskIndex(String data, int fromIndex, int toIndex) {
+        if (isEmpty(data) || fromIndex < 0 || toIndex > data.length() || fromIndex > toIndex) {
+            throw new MaskingServiceException(ServiceError.MASKING_INVALID_REQUEST);
+        }
+        StringBuilder maskedData = new StringBuilder(data);
+        for (int i = fromIndex; i <= toIndex; i++) {
+            maskedData.setCharAt(i, '*');
+        }
+        return maskedData.toString();
+    }
+
+    protected boolean isEmpty(String data) {
+        if (data == null) {
+            return true;
+        }
         return data.trim().isEmpty();
     }
+
+    protected boolean isNotEmpty(String data) {
+        return !isEmpty(data);
+    }
+
+
 }
