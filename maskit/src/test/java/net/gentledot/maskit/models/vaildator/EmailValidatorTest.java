@@ -4,165 +4,189 @@ import net.gentledot.maskit.exceptions.MaskingServiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EmailValidatorTest {
-    private EmailValidator emailValidator = new EmailValidator();
-
-    @Test
-    void testValidEmail() {
-        assertTrue(emailValidator.isValid("test@example.com"));
-    }
-
-    @Test
-    void testValidEmailWithPlusAndDots() {
-        assertTrue(emailValidator.isValid("user.name+tag+sorting@example.com"));
-    }
-
-    @Test
-    void testValidEmailWithSubdomain() {
-        assertTrue(emailValidator.isValid("user.name@example.co.uk"));
-    }
-
-    @Test
-    void testValidEmailWithUnderscore() {
-        assertTrue(emailValidator.isValid("user_name@example.com"));
-    }
-
-    @Test
-    void testValidEmailWithSubdomain2() {
-        assertTrue(emailValidator.isValid("username@sub.example.com"));
-    }
-
-    @Test
-    void testFalse_ValidEmailWithIPAddress() {
-        assertFalse(emailValidator.isValid("username@123.123.123.123"));
-    }
+    private final EmailValidator emailValidator = new EmailValidator();
 
     @Test
     void testFalse_InvalidEmailWithIPAddressInBrackets() {
-        assertFalse(emailValidator.isValid("username@[123.123.123.123]"));
-    }
-
-    @Test
-    void testFalse_MissingAtAndDomain() {
-        assertFalse(emailValidator.isValid("plainaddress"));
-    }
-
-    @Test
-    void testFalse_MissingUsername() {
-        assertFalse(emailValidator.isValid("@example.com"));
-    }
-
-    @Test
-    void testFalse_LeadingDotInDomain() {
-        assertFalse(emailValidator.isValid("username@.com"));
-    }
-
-    @Test
-    void testFalse_LeadingDotInDomain2() {
-        assertFalse(emailValidator.isValid("username@.com.com"));
-    }
-
-    @Test
-    void testFalse_LeadingDashInDomain() {
-        assertFalse(emailValidator.isValid("username@-example.com"));
-    }
-
-    @Test
-    void testFalse_DoubleDotInDomain() {
-        assertFalse(emailValidator.isValid("username@example..com"));
-    }
-
-    @Test
-    void testFalse_LeadingDotInDomain3() {
-        assertFalse(emailValidator.isValid("username@.example.com"));
-    }
-
-    @Test
-    void testFalse_DoubleDotInDomain2() {
-        assertFalse(emailValidator.isValid("username@.example..com"));
-    }
-
-    @Test
-    void testFalse_TrailingDotInDomain() {
-        assertFalse(emailValidator.isValid("username@.example.com."));
-    }
-
-    @Test
-    void testFalse_LeadingDashInDomain2() {
-        assertFalse(emailValidator.isValid("username@-example.com"));
-    }
-
-    @Test
-    void testFalse_UnderscoreInDomain() {
-        assertFalse(emailValidator.isValid("username@exam_ple.com"));
-    }
-
-    @Test
-    void testFalse_ExclamationMarkInDomain() {
-        assertFalse(emailValidator.isValid("username@exam!ple.com"));
+        String email = "user@[192.168.1.1]";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
     void testFalse_SingleCharacterTLD() {
-        assertFalse(emailValidator.isValid("username@example.c"));
+        String email = "user@domain.c";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
-    void testFalse_TLDTooLong() {
-        assertFalse(emailValidator.isValid("username@example..thisisaverylongtldthatexceedtld"));
+    void testFalse_MissingAtAndDomain() {
+        String email = "userdomain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
-    void testFalse_LeadingDotInDomain4() {
-        assertFalse(emailValidator.isValid("username@.com"));
+    void testFalse_WhenEmpty() {
+        String email = "";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
-    void testFalse_MissingTLD() {
-        assertFalse(emailValidator.isValid("username@com"));
-    }
-
-    @Test
-    void testFalse_LeadingDashInDomain3() {
-        assertFalse(emailValidator.isValid("username@-com.com"));
-    }
-
-    @Test
-    void testFalse_TrailingDashInDomain() {
-        assertFalse(emailValidator.isValid("username@com-.com"));
+    void testFalse_DoubleDotInDomain2() {
+        String email = "user@domain..com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
     void testFalse_DoubleDotInDomain3() {
-        assertFalse(emailValidator.isValid("username@com..com"));
-    }
-
-    @Test
-    void testFalse_TrailingDashInDomain2() {
-        assertFalse(emailValidator.isValid("username@com.com-"));
-    }
-
-    @Test
-    void testFalse_TrailingDotInDomain2() {
-        assertFalse(emailValidator.isValid("username@com.com."));
+        String email = "user@domain...com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
     void testFalse_DoubleDotInDomain4() {
-        assertFalse(emailValidator.isValid("username@com.com.."));
+        String email = "user@domain....com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
-    void testisValidWhenEmptyThenFalse() {
-        String emptyEmail = "";
-        assertFalse(emailValidator.isValid(emptyEmail), "Expected empty email to return false");
+    void testFalse_LeadingDashInDomain2() {
+        String email = "user@-domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
     }
 
     @Test
-    void testFail_WhenInputNull() {
-        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(null));
+    void testFalse_LeadingDashInDomain3() {
+        String email = "user@--domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_LeadingDotInDomain2() {
+        String email = "user@.domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_LeadingDotInDomain3() {
+        String email = "user@..domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_LeadingDotInDomain4() {
+        String email = "user@...domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_MissingTLD() {
+        String email = "user@domain";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_DoubleDotInDomain() {
+        String email = "user@domain..com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_ValidEmailWithIPAddress() {
+        String email = "user@192.168.1.1";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_TrailingDashInDomain2() {
+        String email = "user@domain-.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_TrailingDotInDomain2() {
+        String email = "user@domain.com.";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_LeadingDashInDomain() {
+        String email = "user@-domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_LeadingDotInDomain() {
+        String email = "user@.domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_TrailingDashInDomain() {
+        String email = "user@domain-.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_TLDTooLong() {
+        String email = "user@domain.abcdefghtldtoolong";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_ExclamationMarkInDomain() {
+        String email = "user@domain!.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_TrailingDotInDomain() {
+        String email = "user@domain.com.";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_MissingUsername() {
+        String email = "@domain.com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    @Test
+    void testFalse_UnderscoreInDomain() {
+        String email = "user@domain_com";
+        Assertions.assertThrows(MaskingServiceException.class, () -> emailValidator.isValid(email));
+    }
+
+    // Valid email tests
+    @Test
+    void validEmail() {
+        String email = "user@domain.com";
+        assertTrue(emailValidator.isValid(email));
+    }
+
+    @Test
+    void validEmailWithSubdomain() {
+        String email = "user@mail.domain.com";
+        assertTrue(emailValidator.isValid(email));
+    }
+
+    @Test
+    void validEmailWithPlus() {
+        String email = "user+label@domain.com";
+        assertTrue(emailValidator.isValid(email));
+    }
+
+    @Test
+    void validEmailWithHyphen() {
+        String email = "user-name@domain.com";
+        assertTrue(emailValidator.isValid(email));
+    }
+
+    @Test
+    void validEmailWithDotInUsername() {
+        String email = "user.name@domain.com";
+        assertTrue(emailValidator.isValid(email));
     }
 }

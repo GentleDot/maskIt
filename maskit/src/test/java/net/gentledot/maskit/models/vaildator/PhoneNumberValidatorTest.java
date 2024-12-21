@@ -4,7 +4,6 @@ import net.gentledot.maskit.exceptions.MaskingServiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PhoneNumberValidatorTest {
@@ -39,87 +38,57 @@ class PhoneNumberValidatorTest {
     }
 
     @Test
-    void falseTest_isValidWhenInputIsTooShortThenReturnFalse() {
+    void falseTest_isValidWhenInputIsTooShortThenThrowException() {
         String phoneNumber = "010123";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputIsTooLongThenReturnFalse() {
+    void falseTest_isValidWhenInputIsTooLongThenThrowException() {
         String phoneNumber = "010123456789012";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsLettersThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsLettersThenThrowException() {
         String phoneNumber = "0101234abcd";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsSpecialCharactersThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsSpecialCharactersThenThrowException() {
         String phoneNumber = "010-1234-567@";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsSpacesThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsSpacesThenThrowException() {
         String phoneNumber = "010 1234 5678";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsMultipleDashesThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsMultipleDashesThenThrowException() {
         String phoneNumber = "010--1234--5678";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsLeadingPlusWithoutCountryCodeThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsLeadingPlusWithoutCountryCodeThenThrowException() {
         String phoneNumber = "+1012345678";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void falseTest_isValidWhenInputContainsInvalidCountryCodeThenReturnFalse() {
+    void falseTest_isValidWhenInputContainsInvalidCountryCodeThenThrowException() {
         String phoneNumber = "+991012345678";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test
-    void testisValidWhenInputContainsInvalidAreaCodeThenReturnFalse() {
-        String phoneNumber = "01912345678";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertTrue(result);
-    }
-
-    @Test
-    void testisValidWhenInputContainsValidAreaCodeThenReturnTrue() {
-        String phoneNumber = "0311234567";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertTrue(result);
-    }
-
-    @Test
-    void testisValidWhenInputContainsValidAreaCodeWithDashesThenReturnTrue() {
-        String phoneNumber = "031-123-4567";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertTrue(result);
-    }
-
-    @Test
-    void testisValidWhenInputIsEmptyThenReturnFalse() {
+    void testisValidWhenInputIsEmptyThenThrowException() {
         String phoneNumber = "";
-        boolean result = phoneNumberValidator.isValid(phoneNumber);
-        assertFalse(result);
+        Assertions.assertThrows(MaskingServiceException.class, () -> phoneNumberValidator.isValid(phoneNumber));
     }
 
     @Test

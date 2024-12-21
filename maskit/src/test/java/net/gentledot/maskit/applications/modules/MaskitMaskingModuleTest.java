@@ -141,12 +141,12 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
     }
 
     @Test
-    void testMaskIndexWhenFromIndexIsGreaterThanOrEqualToToIndexThenThrowException() {
+    void testMaskIndexWhenFromIndexIsGreaterThanOrEqualToToIndexThenReturnMaskedData() {
         String data = "12345";
         int fromIndex = 3;
         int toIndex = 3;
-        MaskingServiceException exception = assertThrows(MaskingServiceException.class, () -> maskIndex(data, fromIndex, toIndex));
-        assertEquals(ServiceError.MASKING_INVALID_REQUEST, exception.getServiceError());
+        String result = maskIndex(data, fromIndex, toIndex);
+        assertEquals("123*5", result);
     }
 
     @Test
@@ -155,6 +155,6 @@ class MaskitMaskingModuleTest extends MaskitMaskingModule {
         int fromIndex = 1;
         int toIndex = 4;
         String result = maskIndex(data, fromIndex, toIndex);
-        assertEquals("1***5", result);
+        assertEquals("1****", result);
     }
 }

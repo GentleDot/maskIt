@@ -56,21 +56,25 @@ public class EmailMaskingModule extends MaskitMaskingModule implements MaskingMo
 
     @Override
     public String mask(String data, int fromIndex, int toIndex) {
+        validator.isValid(data);
         return super.maskIndex(data, fromIndex, toIndex);
     }
 
     @Override
     public String maskFront(String data, int length) {
+        validator.isValid(data);
         return maskFront(data, length);
     }
 
     @Override
     public String maskBack(String data, int length) {
+        validator.isValid(data);
         return maskBack(data, length);
     }
 
     @Override
     public String maskWithRegex(String data, Pattern regex) {
+        validator.isValid(data);
         return maskWithRegex(data, regex);
     }
 }

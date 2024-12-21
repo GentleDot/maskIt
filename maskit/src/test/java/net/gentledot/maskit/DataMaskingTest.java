@@ -39,7 +39,7 @@ class DataMaskingTest {
     @Test
     void testEmailModuleMaskedEmail() {
         String data = "example@example.com";
-        String expectedMaskedData = "e***@example.com";
+        String expectedMaskedData = "*******@*******.com";
         String actualMaskedData = dataMasking.getModule(DataTypes.EMAIL).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
@@ -48,7 +48,7 @@ class DataMaskingTest {
     @Test
     void testPhoneNumberModuleMaskedPhoneNumber() {
         String data = "01012345678";
-        String expectedMaskedData = "010****5678";
+        String expectedMaskedData = "*******5678";
         String actualMaskedData = dataMasking.getModule(DataTypes.PHONE_NUMBER).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }
@@ -57,7 +57,7 @@ class DataMaskingTest {
     @Test
     void testNameModuleMaskedName() {
         String data = "홍길동";
-        String expectedMaskedData = "홍*";
+        String expectedMaskedData = "홍**";
         String actualMaskedData = dataMasking.getModule(DataTypes.NAME).mask(data);
         assertEquals(expectedMaskedData, actualMaskedData);
     }

@@ -59,16 +59,19 @@ public class SSNMaskingModule extends MaskitMaskingModule implements MaskingModu
 
     @Override
     public String maskFront(String data, int length) {
+        validator.isValid(data);
         return super.maskFront(data, length);
     }
 
     @Override
     public String maskBack(String data, int length) {
+        validator.isValid(data);
         return super.maskBack(data, length);
     }
 
     @Override
     public String maskWithRegex(String data, Pattern regex) {
+        validator.isValid(data);
         return super.maskWithRegex(data, regex);
     }
 }
