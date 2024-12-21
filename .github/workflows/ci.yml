@@ -50,15 +50,28 @@ jobs:
                     echo "Version extracted: $VERSION"
                     echo "::set-output name=version::$VERSION"
 
-            - name: Set up Git automate user
-              run: |
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-
-            -   name: Tag the commit
+            -   name: Set up Git automate user
                 run: |
-                    git tag -a "${{ steps.get_version.outputs.version }}" -m "Release version  ${{ steps.get_version.outputs.version }}"
-                    git push origin "${{ steps.get_version.outputs.version }}"
+                    git config --global user.email "action@github.com"
+                    git config --global user.name "GitHub Action"
+
+            -   name: Check if tag exists
+                id: check_tag
+                run: |
+                    if git rev-parse "0.0.3" >/dev/null 2>&1; then
+                      echo "Tag already exists"
+                      echo "exists=true" >> $GITHUB_ENV
+                    else
+                      echo "Tag does not exist"
+                      echo "exists=false" >> $GITHUB_ENV
+                    fi
+
+            -   name: Create Git Tag
+                if: env.exists == 'false'  # 태그가 존재하지 않을 때만 실행
+                run: |
+                    TAG_NAME="${{ steps.get_version.outputs.version }}"
+                    git tag -a "$TAG_NAME" -m "Release version $TAG_NAME"
+                    git push origin "$TAG_NAME"
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
