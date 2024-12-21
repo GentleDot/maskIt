@@ -81,16 +81,12 @@ jobs:
                     TAG_NAME=${{ steps.get_version.outputs.version }}
                     RELEASE_DATE=$(date +'%Y-%m-%d %H:%M:%S')
                     
-                    echo "릴리스 일시: ${RELEASE_DATE}" > release_notes.txt
+                    cat updates/${TAG_NAME}.md > release_notes.txt
+                    echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
-                    echo "" >> release_notes.txt
-                    cat updates/${TAG_NAME}.md >> release_notes.txt
-                    
-                    {
-                      echo "RELEASE_NOTES<<EOF"
-                      cat release_notes.txt
-                      echo "EOF"
-                    } >> $GITHUB_ENV
+                    echo "릴리스 일시: ${RELEASE_DATE}" >> release_notes.txt
+                    cat release_notes.txt >> $GITHUB_ENV
+                    echo "EOF" >> $GITHUB_ENV
 
             -   name: Create a GitHub Release
                 uses: softprops/action-gh-release@v1
