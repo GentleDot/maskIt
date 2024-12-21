@@ -48,6 +48,14 @@ jobs:
                 run: |
                     VERSION=$(grep -Eo "version = '[^']+'" build.gradle | awk -F"'" '{print $2}')
                     echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+            -   name: Tag the commit
+                run: |
+                    git tag -a "${{ env.VERSION }}" -m "Release version ${{ env.VERSION }}"
+                    git push origin "${{ env.VERSION }}"
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             -   name: Read release notes
                 id: read_release_notes
                 run: |
