@@ -2,9 +2,9 @@ plugins {
     id('java')
     id('maven-publish')
 }
-
+def projectVersion = "0.0.4"
 group = 'net.gentledot'
-version = '0.0.3'
+version = projectVersion
 
 sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
@@ -20,7 +20,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'net.gentledot'
             artifactId = 'maskit'
-            version = '0.0.3'
+            version = projectVersion
             from components.java
         }
     }

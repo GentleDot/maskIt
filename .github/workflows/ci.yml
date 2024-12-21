@@ -79,10 +79,14 @@ jobs:
                 id: read_release_notes
                 run: |
                     TAG_NAME=${{ steps.get_version.outputs.version }}
-                    cat updates/${TAG_NAME}.md > release_notes.txt
-                    echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+                    RELEASE_DATE=$(date +'%Y-%m-%d %H:%M:%S')
+                    
+                    echo "릴리스 일시: ${RELEASE_DATE}" > release_notes.txt
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
-                    echo "릴리스 일시: ${RELEASE_DATE}" >> release_notes.txt
+                    echo "" >> release_notes.txt  # 빈 줄 추가 (가독성을 위해)
+                    cat updates/${TAG_NAME}.md >> release_notes.txt
+                    
+                    echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
                     cat release_notes.txt >> $GITHUB_ENV
                     echo "EOF" >> $GITHUB_ENV
 
