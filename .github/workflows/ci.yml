@@ -65,7 +65,7 @@ jobs:
             -   name: Read release notes
                 id: read_release_notes
                 run: |
-                    TAG_NAME= ${{ steps.get_version.outputs.version }}
+                    TAG_NAME=${{ steps.get_version.outputs.version }}
                     cat updates/${TAG_NAME}.md > release_notes.txt
                     echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
