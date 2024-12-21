@@ -83,7 +83,7 @@ jobs:
                     
                     echo "릴리스 일시: ${RELEASE_DATE}" > release_notes.txt
                     echo "릴리스 버전: ${TAG_NAME}" >> release_notes.txt
-                    echo "" >> release_notes.txt  # 빈 줄 추가 (가독성을 위해)
+                    echo "" >> release_notes.txt
                     cat updates/${TAG_NAME}.md >> release_notes.txt
                     
                     echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
