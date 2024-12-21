@@ -42,33 +42,33 @@ public class DataMasking {
             this.addressMaskingModule = AddressMaskingModule.newInstance();
         }
 
-        public DataMaskingBuilder phoneNumberMaskingModule(PhoneNumberMaskingModule phoneNumberMaskingModule) {
-            this.phoneNumberMaskingModule = phoneNumberMaskingModule;
+        public DataMaskingBuilder phoneNumberMaskingModule(MaskingModule phoneNumberMaskingModule) {
+            this.phoneNumberMaskingModule = (PhoneNumberMaskingModule) phoneNumberMaskingModule;
             return this;
         }
 
-        public DataMaskingBuilder creditCardMaskingModule(CreditCardMaskingModule creditCardMaskingModule) {
-            this.creditCardMaskingModule = creditCardMaskingModule;
+        public DataMaskingBuilder creditCardMaskingModule(MaskingModule creditCardMaskingModule) {
+            this.creditCardMaskingModule = (CreditCardMaskingModule) creditCardMaskingModule;
             return this;
         }
 
-        public DataMaskingBuilder ssnMaskingModule(SSNMaskingModule ssnMaskingModule) {
-            this.ssnMaskingModule = ssnMaskingModule;
+        public DataMaskingBuilder ssnMaskingModule(MaskingModule ssnMaskingModule) {
+            this.ssnMaskingModule = (SSNMaskingModule) ssnMaskingModule;
             return this;
         }
 
-        public DataMaskingBuilder emailMaskingModule(EmailMaskingModule emailMaskingModule) {
-            this.emailMaskingModule = emailMaskingModule;
+        public DataMaskingBuilder emailMaskingModule(MaskingModule emailMaskingModule) {
+            this.emailMaskingModule = (EmailMaskingModule) emailMaskingModule;
             return this;
         }
 
-        public DataMaskingBuilder nameMaskingModule(NameMaskingModule nameMaskingModule) {
-            this.nameMaskingModule = nameMaskingModule;
+        public DataMaskingBuilder nameMaskingModule(MaskingModule nameMaskingModule) {
+            this.nameMaskingModule = (NameMaskingModule) nameMaskingModule;
             return this;
         }
 
-        public DataMaskingBuilder addressMaskingModule(AddressMaskingModule addressMaskingModule) {
-            this.addressMaskingModule = addressMaskingModule;
+        public DataMaskingBuilder addressMaskingModule(MaskingModule addressMaskingModule) {
+            this.addressMaskingModule = (AddressMaskingModule) addressMaskingModule;
             return this;
         }
 
