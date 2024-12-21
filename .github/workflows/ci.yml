@@ -43,11 +43,13 @@ jobs:
                     distribution: 'temurin'
 
 
-            -   name: Get version from build.gradle
-                id: get_version
+            -   name: Set MY_VERSION from branch name
+                id: set_version
                 run: |
-                    VERSION=$(grep -Eo "version = '[^']+'" ./maskit/build.gradle | awk -F"'" '{print $2}')
-                    echo "MY_VERSION=${VERSION}" >> $GITHUB_ENV
+                    # Get the branch name and remove 'refs/heads/' prefix
+                    BRANCH_NAME=${GITHUB_REF#refs/heads/}
+                    # Set MY_VERSION to the branch name
+                    echo "MY_VERSION=${BRANCH_NAME}" >> $GITHUB_ENV
 
             -   name: Tag the commit
                 run: |
