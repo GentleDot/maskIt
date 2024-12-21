@@ -58,7 +58,7 @@ jobs:
             -   name: Check if tag exists
                 id: check_tag
                 run: |
-                    if git rev-parse "0.0.3" >/dev/null 2>&1; then
+                    if git tag | grep -q "${{ steps.get_version.outputs.version }}"; then
                       echo "Tag already exists"
                       echo "exists=true" >> $GITHUB_ENV
                     else
