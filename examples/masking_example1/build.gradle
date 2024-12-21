@@ -8,5 +8,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.GentleDot:maskIt:0.0.4'
+    implementation 'com.github.GentleDot:maskIt:0.0.6'
 }
