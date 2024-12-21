@@ -2,7 +2,7 @@ plugins {
     id('java')
     id('maven-publish')
 }
-def projectVersion = '0.1.0'
+def projectVersion = '0.1.1'
 group = 'net.gentledot'
 version = projectVersion
 
@@ -25,7 +25,12 @@ javadoc {
 
 tasks.register('javadocJar', Jar) {
     archiveClassifier.set('javadoc')
-    from javadoc // Assuming you have a javadoc task defined
+    from javadoc
+}
+// 소스 JAR 태스크 정의
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allJava
 }
 
 publishing {
@@ -35,7 +40,10 @@ publishing {
             artifactId = 'maskit'
             version = projectVersion
             from components.java
-            artifact javadocJar
+            afterEvaluate {
+                artifact javadocJar
+                artifact sourcesJar
+            }
         }
     }
 }
