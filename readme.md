@@ -61,7 +61,7 @@ repositories {
 
 ```groovy
     dependencies {
-  implementation 'com.github.GentleDot:maskIt:0.0.2-alpha'
+  implementation 'com.github.GentleDot:maskIt:0.1.1'
 }
 ```
 
